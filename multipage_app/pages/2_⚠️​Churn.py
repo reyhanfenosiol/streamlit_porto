@@ -68,8 +68,9 @@ st.write('Input customer details in the sidebar to predict churn risk.')
 st.sidebar.divider()
 st.sidebar.header('User Input Features')
 
-base_path = os.getcwd()
-path_ke_encoder = os.path.join(base_path, 'label_encoder.pkl')
+current_dir = os.path.dirname(__file__)
+root_path = os.path.abspath(os.path.join(current_dir, "..", ".."))
+path_ke_encoder = os.path.join(root_path, 'label_encoder.pkl')
 encoders = joblib.load(path_ke_encoder)
 # encoders = joblib.load('label_encoder.pkl')
 
