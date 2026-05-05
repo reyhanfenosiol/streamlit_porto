@@ -107,7 +107,9 @@ if st.sidebar.button("Predict Now"):
         ]]
     )
 
-    model = joblib.load('model.pkl')
+    path_ke_model = os.path.join(root_path, 'model.pkl')
+    model = joblib.load(path_ke_model)
+    # model = joblib.load('model.pkl')
 
     prediction = model.predict(features)
     y_pred = prediction[0]
