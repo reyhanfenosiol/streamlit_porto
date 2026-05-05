@@ -66,7 +66,11 @@ st.write('Input customer details in the sidebar to predict churn risk.')
 
 st.sidebar.divider()
 st.sidebar.header('User Input Features')
-encoders = joblib.load('label_encoder.pkl')
+
+base_path = os.getcwd()
+path_ke_encoder = os.path.join(base_path, 'label_encoder.pkl')
+encoders = joblib.load(path_ke_encoder)
+# encoders = joblib.load('label_encoder.pkl')
 
 list_gender = encoders['gender'].classes_
 gender_user = st.sidebar.selectbox("Gender", list_gender)
