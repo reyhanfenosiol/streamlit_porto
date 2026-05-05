@@ -96,6 +96,6 @@ st.write("""
 
 contact_col1, contact_col2 = st.columns(2)
 with contact_col1:
-    st.write("📧 **Email:** [reyhanmauluddiin@gmail.com]")
+    st.write("📧 **Email:** reyhanmauluddiin@gmail.com")
 with contact_col2:
     st.write("🔗 **LinkedIn:** [linkedin.com/in/reyhanmauluddi](https://www.linkedin.com)")

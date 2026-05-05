@@ -138,9 +138,9 @@ print(importances.head(10))
 
 
 # simpan model dengan joblib
-path_model = r"D:\REYHAN\BOOST ACADEMY\projek_akhir\model.pkl"
+path_model = "../multipage_app/model.pkl"
 joblib.dump(lgbm_model, path_model)
-path_le = r"D:\REYHAN\BOOST ACADEMY\projek_akhir\label_encoder.pkl"
+path_le = "../multipage_app/label_encoder.pkl"
 joblib.dump(le_dict, path_le)
 
 
