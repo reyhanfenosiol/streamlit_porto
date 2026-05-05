@@ -71,8 +71,13 @@ st.sidebar.header('User Input Features')
 current_dir = os.path.dirname(__file__)
 root_path = os.path.abspath(os.path.join(current_dir, ".."))
 path_ke_encoder = os.path.join(root_path, 'label_encoder.pkl')
-encoders = joblib.load(path_ke_encoder)
-# encoders = joblib.load('label_encoder.pkl')
+path_ke_model = os.path.join(root_path, 'model.pkl')
+try:
+    encoders = joblib.load(path_ke_encoder)
+    model = joblib.load(path_ke_model)
+except Exception as e:
+    st.error(f"Gagal memuat file: {e}")
+    st.info(f"Mencari di: {root_path}")
 
 list_gender = encoders['gender'].classes_
 gender_user = st.sidebar.selectbox("Gender", list_gender)
@@ -107,9 +112,6 @@ if st.sidebar.button("Predict Now"):
         ]]
     )
 
-    path_ke_model = os.path.join(root_path, 'model.pkl')
-    model = joblib.load(path_ke_model)
-    # model = joblib.load('model.pkl')
 
     prediction = model.predict(features)
     y_pred = prediction[0]
