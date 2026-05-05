@@ -7,3 +7,4 @@ plotly-resampler
 db-dtypes
 category-encoders
 matplotlib
+lightgbm
