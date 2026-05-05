@@ -6,6 +6,7 @@ import numpy as np
 from datetime import datetime, timedelta 
 import base64
 from pathlib import Path
+import os
 
 def set_office_bg():
     img_url = "https://images.unsplash.com/photo-1526289034009-0240ddb68ce3?q=80&w=1171&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" 
@@ -107,8 +108,11 @@ st.sidebar.success('Select a page above')
 st.header('📊​ Data Analysis')
 st.set_page_config(layout='wide')
 
-path = 'D:\REYHAN\BOOST ACADEMY\projek_akhir'
-df_prod = pd.read_csv(f"{path}\prod_analysis.csv")
+current_dir = os.path.dirname(__file__)
+path = os.path.join(current_dir, "..", "prod_analysis.csv")
+# path = 'D:\REYHAN\BOOST ACADEMY\projek_akhir'
+
+df_prod = pd.read_csv(path)
 df_prod['is_returned'] = df_prod['status'].apply(lambda x:1 if x == 'Returned' else 0)
 df_prod['is_complete'] = df_prod['status'].apply(lambda x:1 if x == 'Returned' else 0)
 df_vis = df_prod.copy()
