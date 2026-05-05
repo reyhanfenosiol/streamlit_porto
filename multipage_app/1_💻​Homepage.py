@@ -1,0 +1,467 @@
+import streamlit as st
+import pandas as pd
+import plotly.express as px
+import joblib
+import numpy as np
+from datetime import datetime, timedelta 
+import base64
+from pathlib import Path
+
+def set_office_bg():
+    img_url = "https://images.unsplash.com/photo-1526289034009-0240ddb68ce3?q=80&w=1171&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" 
+    # "https://images.unsplash.com/photo-1512433155034-67102234a5e4?q=80&w=688&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+    # "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=2070"
+
+    st.markdown(
+        f"""
+        <style>
+        .stApp {{
+            /* Gradient gelap agar teks tetap kontras di atas gambar gedung */
+            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.8)), 
+                        url("{img_url}");
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }}
+
+        /* Sidebar Glassmorphism */
+        [data-testid="stSidebar"] {{
+            background-color: rgba(0, 0, 0, 0.7) !important;
+            backdrop-filter: blur(12px);
+            border-right: 1px solid rgba(255, 255, 255, 0.1);
+        }}
+
+        /* Warna teks judul: Putih bersih dengan sedikit glow */
+        h1, h2, h3 {{
+            color: #ffffff !important;
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.5);
+        }}
+
+        /* Teks pendukung */
+        p, span, label {{
+            color: #e0e0e0 !important;
+        }}
+
+        /* Merapikan kontainer grafik Plotly */
+        .stPlotlyChart {{
+            background-color: rgba(0, 0, 0, 0.3);
+            border-radius: 12px;
+            padding: 10px;
+        }}
+        </style>
+        """,
+        unsafe_allow_html=True
+    )
+
+set_office_bg()
+
+# def get_base64_of_bin_file(bin_file):
+#     with open(bin_file, 'rb') as f:
+#         data = f.read()
+#     return base64.b64encode(data).decode()
+
+# def set_office_bg():
+#     # Sesuaikan nama file .avif kamu di sini
+#     file_path = Path(__file__).parent / "../gambar/photo-1526289034009-0240ddb68ce3.avif"
+    
+#     try:
+#         bin_str = get_base64_of_bin_file(file_path)
+        
+#         st.markdown(
+#             f"""
+#             <style>
+#             .stApp {{
+#                 background: linear-gradient(rgba(0, 0, 0, 0.85), rgba(0, 0, 0, 0.95)), 
+#                             url("data:image/avif;base64,{bin_str}");
+#                 background-size: cover;
+#                 background-position: center;
+#                 background-attachment: fixed;
+#             }}
+
+#             /* ... Sisa CSS kamu tetap sama ... */
+#             [data-testid="stSidebar"] {{
+#                 background-color: rgba(0, 0, 0, 0.7) !important;
+#                 backdrop-filter: blur(12px);
+#             }}
+#             h1, h2, h3 {{ color: #ffffff !important; }}
+#             p, span, label {{ color: #e0e0e0 !important; }}
+#             </style>
+#             """,
+#             unsafe_allow_html=True
+#         )
+#     except FileNotFoundError:
+#         st.error("File gambar .avif tidak ditemukan. Periksa kembali path-nya.")
+
+# set_office_bg()
+
+
+
+st.set_page_config(
+    page_title='Dashboard Ecommerce Startup',
+    page_icon='📶'
+)
+
+st.title('Dashboard Ecommerce Startup')
+st.sidebar.success('Select a page above')
+
+st.header('📊​ Data Analysis')
+st.set_page_config(layout='wide')
+
+path = 'D:\REYHAN\BOOST ACADEMY\projek_akhir'
+df_prod = pd.read_csv(f"{path}\prod_analysis.csv")
+df_prod['is_returned'] = df_prod['status'].apply(lambda x:1 if x == 'Returned' else 0)
+df_prod['is_complete'] = df_prod['status'].apply(lambda x:1 if x == 'Returned' else 0)
+df_vis = df_prod.copy()
+
+st.write('This data shows product statistics by transaction item.')
+st.divider()
+
+
+# visual
+st.sidebar.header('Input your Filters')
+
+# global filter
+list_negara = sorted(df_vis['country'].unique())
+selected_countries = st.sidebar.multiselect(
+    'Select country/countries',
+    options=list_negara,
+    default=[list_negara[0]]
+    )
+
+list_status = df_vis['status'].unique().tolist()
+selected_status = st.sidebar.multiselect(
+    'Select Status',
+    options=list_status,
+    default=list_status
+    )
+
+top_n = st.sidebar.slider('Top N Categories', min_value=3, max_value=20, value=5)
+
+if not selected_countries or not selected_status:
+    st.error("⚠️ **Please Complete your Filters!**")
+    st.info("Please select at least one country and one status to display the data.")
+    st.stop()
+else:
+    df_filtered = df_vis[
+        (df_vis['country'].isin(selected_countries)) &
+        (df_vis['status'].isin(selected_status))
+    ]
+
+
+# top categories
+data_prod = df_filtered.copy()
+data_prod = data_prod[data_prod['status'] != 'Cancelled']
+data_prod = (data_prod['category'].value_counts(normalize=True)*100).round(2).reset_index(name='proportion')
+fig_1 = px.bar(data_prod.head(top_n), x='proportion', y='category', orientation='h', 
+               title=f"Top {top_n} Categories", color='proportion', color_continuous_scale='Viridis')
+fig_1.update_yaxes(autorange="reversed")
+fig_1.update_layout(
+    xaxis_title='Proportion (%)',
+    yaxis_title='Category'
+)
+
+
+# total order
+df_filtered['created_at'] = pd.to_datetime(df_vis['created_at'], format='ISO8601')
+df_filtered['created_at'] = df_filtered['created_at'].dt.tz_localize(None)
+one_year_ago = datetime.now() - timedelta(days=365)
+df_line = df_filtered[df_filtered['created_at'] >= one_year_ago].copy()
+
+data_line = df_line.groupby(df_line['created_at'].dt.date)['id'].count().reset_index(name='total_order')
+fig_2 = px.line(
+    data_line, x='created_at', y='total_order', title='Trend of Total Order (Last 1 Year)', markers=True,
+    template='plotly_dark'
+)
+
+fig_2.update_layout(
+    xaxis_title='Order Date',
+    yaxis_title='Total Order'
+)
+
+
+# status detail
+data_stat = df_filtered.groupby('status')['id'].count().reset_index(name='proportion')
+fig_3 = px.pie(
+    data_stat, values='proportion', names= 'status', 
+    title= 'Proportion of Status', hole=0.4
+)
+
+fig_3.update_layout(
+    height=450,
+    margin=dict(l=20, r=20, t=50, b=100), # Beri margin bawah (b) lebih besar untuk legenda
+    legend=dict(
+        orientation="h",     # Ubah ke HORIZONTAL
+        yanchor="bottom",
+        y=-0.5,              # Geser ke bawah area grafik
+        xanchor="center",
+        x=0.5                # Taruh di tengah
+    ),
+    title_font_size=18
+)
+
+# age distribution
+data_age = df_filtered[df_filtered['status'] != 'Cancelled']
+fig_4 = px.histogram(
+    data_age, x='age', nbins=25, title='Distribution of Customer Age',
+    color_discrete_sequence=['#636EFA']
+)
+fig_4.update_layout(
+    xaxis_title='Customer Age',
+    yaxis_title='Number of Customers'
+)
+
+
+# map distribution
+fig_5 = px.scatter_map(
+    df_filtered, 
+    lat="latitude", 
+    lon="longitude", 
+    color="status", # Warna titik berdasarkan kategori
+    size="sale_price", # Besar titik berdasarkan harga (opsional)
+    hover_name="city", # Menampilkan nama kota saat kursor diarahkan
+    zoom=1, 
+    title="Customer Order Geographic Distribution"
+)
+fig_5.update_layout(
+    margin={"r":0,"t":40,"l":0,"b":0}, # Menghapus margin kanan, kiri, dan bawah
+    legend=dict(
+        orientation="h",       # Legenda horizontal
+        yanchor="bottom",
+        y=-0.1,                # Posisi di bawah peta
+        xanchor="center",
+        x=0.5
+    )
+)
+
+
+
+
+
+# layout dengan tab
+tab4, tab1, tab2, tab3 = st.tabs([
+                            "📖 Project Overview",
+                            "📈 Descriptive Analysis", 
+                            "🩺 Diagnostic Analysis",
+                            "🗂️ Raw Data & Filters"
+                            ])
+
+with tab4:
+    col_id, col_en = st.columns(2)
+    with col_id:
+        with st.container(border=True):
+            st.write("**_Bahasa Indonesia_**")
+            st.markdown(f"""
+            **Latar Belakang Proyek:**
+            Sebuah startup e-commerce yang berkembang pesat memiliki portofolio produk yang luas mencakup **26 kategori** dan lebih dari **2.700 variasi brand**. Sejak transaksi pertama di tahun **2019**, perusahaan telah mencatatkan lebih dari **100.000 transaksi** di **15 negara**, melayani pelanggan pria dan wanita dalam rentang usia **12 hingga 70 tahun**.
+
+            **Tantangan & Masalah:**
+            Seiring pertumbuhan volume data, perusahaan menghadapi kebutuhan mendesak untuk mengoptimalkan arsitektur pelaporan demi efisiensi pengambilan keputusan. Tantangan utamanya adalah membangun *pipeline* data yang efisien—mulai dari *data source* mentah di **Google BigQuery**, proses ETL, hingga visualisasi di **Streamlit Cloud**, semuanya harus tersedia secara otomatis menggunakan **Airflow** dengan batasan anggaran yang ada.
+
+            **Tujuan Strategis:**
+            Fokus utama saat ini adalah memahami karakteristik pelanggan setia dan meminimalisir *customer churn*. Melalui dasbor ini, *Head of Operational* dapat memantau data secara *real-time* dan fleksibel untuk memprediksi probabilitas *churn* tanpa perlu mengolah file manual.
+            """)
+
+    with col_en:
+        with st.container(border=True):
+            st.write("**_English_**")
+            st.markdown(f"""
+            **Project Background:**
+            A rapidly growing e-commerce startup manages a diverse product portfolio featuring **26 categories** and over **2,700 brand variations**. Since its inception in **2019**, the company has processed more than **100,000 transactions** across **15 countries**, serving a broad demographic of male and female customers aged **12 to 70**.
+
+            **Problem Statement and Challenges:**
+            With increasing data volume, there is a critical need to optimize the reporting architecture for better decision making efficiency. The core challenge involves designing a cost effective data pipeline integrating raw data from **Google BigQuery**, performing ETL, and deploying to **Streamlit Cloud**, all automated and scheduled via **Airflow**.
+
+            **Strategic Objectives:**
+            The current focus is on understanding loyal customer characteristics and mitigating customer churn. This dashboard enables the Head of Operational to access flexible, *real-time* insights and predict churn probabilities seamlessly, eliminating the need for manual file handling.
+            """)
+
+
+with tab1:
+    # st.subheader("Descriptive Analytics Highlights")
+    st.write("Descriptive analysis summarizes historical data to provide a clear "
+    "and factual picture of what has already happened.")
+
+    col1, col2 = st.columns([1,1.5])
+    with col1:
+        st.plotly_chart(fig_1, use_container_width=True)
+    with col2:
+        st.plotly_chart(fig_2, use_container_width=True)
+
+    col3, col4 = st.columns([1,1.5])
+    with col3:
+        st.plotly_chart(fig_3, use_container_width=True)
+    with col4:
+        st.plotly_chart(fig_4, use_container_width=True)
+
+    st.plotly_chart(fig_5, use_container_width=True)
+
+with tab3:
+    st.subheader("Displaying Dataset of Customer Order")
+
+    # col_f1, col_f2 = st.columns(2)
+
+    # with col_f1:
+    #     check_one_country = st.toggle('Filter by Country')
+    #     list_negara = sorted(df_vis['country'].unique())
+    #     input_country = st.multiselect(
+    #         'Select country/countries',
+    #         options=list_negara,
+    #         default=[list_negara[0]]
+    #         )
+        
+    # with col_f2:
+    #     toggle_status = st.toggle('Filter by Status')
+    #     input_status = st.radio(
+    #         'Input status of delivery',
+    #         ('Complete','Returned','Cancelled','Shipped',
+    #         'Processing'), horizontal=True
+    #         )
+    
+    df_filtered['created_at'] = pd.to_datetime(df_vis['created_at'], format='ISO8601')
+    df_filtered['created_at'] = df_filtered['created_at'].dt.date
+
+    # logic
+    # df_filtered = df_vis.copy()
+
+    # if check_one_country and input_country:
+    #     df_filtered = df_filtered.query('country in @input_country')
+    # if toggle_status:
+    #     df_filtered = df_filtered.query('status == @input_status')
+
+    st.write(f"Showing **{len(df_filtered)}** rows")
+    st.dataframe(df_filtered, use_container_width=True)
+
+
+with tab2:
+    # st.subheader("Diagnostic Analytics: Root Cause Discovery")
+    # st.markdown("Fokus pada identifikasi pola kegagalan transaksi dan anomali kategori.")
+    st.write("Diagnostic analysis investigates data to find the root cause and " \
+    "explain the specific reasons **why** something happened.")
+    st.header("1. Product Returns")
+
+    col1, col2 = st.columns([1, 2])
+
+    with col1:
+        st.write("#### Most Returned Category")
+        cat_return = df_filtered.groupby('category')['is_returned'].mean().sort_values(ascending=False).reset_index()
+        cat_return.columns= ['Category', 'Return Rate']
+        st.dataframe(cat_return.style.background_gradient(cmap='Reds'))
+    
+    with col2:
+    # Diagnostik: Apakah usia pelanggan berpengaruh pada kecenderungan mengembalikan barang?
+        fig_age_return = px.histogram(
+            df_filtered, x="age", color="status", 
+            marginal="box", 
+            title="Age Distribution vs Order Status",
+            barmode="overlay"
+        )
+
+        fig_age_return.update_layout(
+        xaxis_title='Age',
+        yaxis_title='Order Total',
+        title_font_size=25
+        )
+
+        st.plotly_chart(fig_age_return, use_container_width=True)
+
+    st.divider()
+
+    ## 
+    st.header("2. Price Impact on Order Success")
+
+    fig_price_diag = px.box(
+        df_filtered, x='status', y='sale_price',
+        color='gender',
+        notched=True,
+        title="Analysis of Price Variance by Order Status"
+    )
+
+    fig_price_diag.update_layout(
+        xaxis_title='Status',
+        yaxis_title='Sale Price',
+        height=700,
+        width=900,
+        margin=dict(l=50, r=50, t=100, b=50),
+        title_font_size=25
+    )
+
+    st.plotly_chart(fig_price_diag, use_container_width=True)
+    st.info(f"""
+    💡 **Insight:** 
+     * A higher median price in 'Returned' versus 'Complete' orders suggests that high costs might be a primary driver of customer hesitation after purchase.
+     """)
+
+    st.divider()
+
+    ##
+    st.header("3. Traffic vs Brand Performance")
+    selected_cat = st.selectbox("Choose Category", df_filtered['category'].unique())
+    diag_sub_df = df_filtered[df_filtered['category'] == selected_cat]
+
+    pivot_diag = diag_sub_df.pivot_table(
+        index= 'traffic_source',
+        columns= 'gender',
+        values= 'is_returned',
+        aggfunc= 'mean'
+    )
+
+    fig_heatmap = px.imshow(
+        pivot_diag, 
+        labels=dict(x="Gender", y="Traffic Source", color="Return Rate"),
+        title=f"Heatmap Return Rate: {selected_cat} (Segment Risk Diagnosis)",
+        text_auto=True,
+        color_continuous_scale='RdBu_r'
+    )
+
+    fig_heatmap.update_layout(
+        height=700,
+        width=900,
+        margin=dict(l=50, r=50, t=100, b=50),
+        title_font_size=25
+    )
+    st.plotly_chart(fig_heatmap, use_container_width=True)
+
+    st.info(f"""  
+    This heatmap identifies high-risk segments by analyzing the **Return Rate** across different traffic sources and genders. 
+    * **Darker/Red cells** indicate critical segments with high return rates. 
+    * **Blue/Cooler cells** represent stable segments with healthy conversion to successful delivery rate.
+    """)
+
+    st.divider()
+
+    ##
+    st.header("4. Top High Risk Brands")
+    st.write("Mendiagnosis merek mana yang memiliki rasio pengembalian tidak wajar (minimal 50 transaksi).")
+
+    brand_stats = df_filtered.groupby('brand').agg(
+        total_orders= ('id','count'),
+        return_rate= ('is_returned', 'mean')
+    ).reset_index()
+
+    high_risk_brands = brand_stats[brand_stats['total_orders'] > 30].sort_values('return_rate', ascending=False).head(10)
+
+    fig_brands = px.scatter(
+    high_risk_brands, x="total_orders", y="return_rate",
+    text="brand", size="total_orders", color="return_rate",
+    color_continuous_scale="RdBu_r",
+    title="Brand with Highest Returned Risk"
+    )
+    
+    fig_brands.update_layout(
+        xaxis_title= 'Total Order',
+        yaxis_title= 'Return Rate',
+        height=700,
+        width=900,
+        margin=dict(l=50, r=50, t=100, b=50),
+        title_font_size=25
+    )
+    fig_brands.update_traces(textposition='top center')
+    st.plotly_chart(fig_brands, use_container_width=True)
+
+    st.info(f""" 
+    This visualization maps brands based on their **Total Orders** (X-axis) and **Return Rate** (Y-axis) to identify performance outliers.
+
+    * 🔴 **High-Intensity (Red/Top)**: Represents brands with elevated return risks. Brands in this zone require closer inspection.
+    * 🔵 **Low-Intensity (Blue/Bottom)**: Represents brands maintaining a **healthy conversion to successful delivery ratio**, showing high customer satisfaction.
+    * ⚪ **Bubble Size**: Indicates the relative volume of orders.
+    """)
