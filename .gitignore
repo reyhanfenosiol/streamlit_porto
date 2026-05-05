@@ -2,7 +2,6 @@ project_env/
 project/
 __pycache__/
 .streamlit/
-*.csv
 *.pkl
 .DS_Store
 What to Do Ketika mendirikan perusahaan Startup sebagai Data Analytics Lead.docx
@@ -10,3 +9,4 @@ gcp-key.json
 app.py
 duckdb/
 *.duckdb
+Global_Weather.csv
