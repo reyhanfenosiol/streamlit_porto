@@ -69,7 +69,7 @@ st.sidebar.divider()
 st.sidebar.header('User Input Features')
 
 current_dir = os.path.dirname(__file__)
-root_path = os.path.abspath(os.path.join(current_dir, "..", ".."))
+root_path = os.path.abspath(os.path.join(current_dir, ".."))
 path_ke_encoder = os.path.join(root_path, 'label_encoder.pkl')
 encoders = joblib.load(path_ke_encoder)
 # encoders = joblib.load('label_encoder.pkl')
