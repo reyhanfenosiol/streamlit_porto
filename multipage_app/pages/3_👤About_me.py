@@ -58,8 +58,7 @@ st.set_page_config(page_title= "About Me", page_icon="👤")
 col1, col2 = st.columns([1.08, 2], gap="medium")
 
 with col1:
-    image_path = os.path.join(current_dir, "..", "gambar", "DRK_6468.jpg")
-    st.image(image_path, caption="Mochammad Reyhan Mauluddi")
+    st.image("gambar/DRK_6468.jpg", caption="Mochammad Reyhan Mauluddi")
 
 with col2:
     st.title("About Me")
