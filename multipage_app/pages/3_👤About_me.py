@@ -1,5 +1,6 @@
 import streamlit as st
 import os
+import base64
 
 current_dir = os.path.dirname(__file__)
 
@@ -52,13 +53,52 @@ def set_office_bg():
 
 set_office_bg()
 
+def get_audio_html(file_path):
+    """
+    Loads the local mp3 file and converts it to a base64 string 
+    to be played via an HTML audio tag.
+    """
+    with open(file_path, "rb") as f:
+        audio_bytes = f.read()
+    audio_base64 = base64.b64encode(audio_bytes).decode()
+    
+    return f"""
+        <div style="padding: 10px; border-radius: 10px; background-color: rgba(150, 150, 150, 0.1);">
+            <p style="font-size: 14px; margin-bottom: 8px;">🎵 <b>Background Music</b></p>
+            <audio controls autoplay loop style="width: 100%;">
+                <source src="data:audio/mp3;base64,{audio_base64}" type="audio/mp3">
+                Your browser does not support the audio element.
+            </audio>
+        </div>
+    """
+
+audio_path = os.path.join(current_dir, "..", "assets", "daybreak’s_measured_pulse.mp3")
+
+if os.path.exists(audio_path):
+    st.sidebar.markdown(get_audio_html(audio_path), unsafe_allow_html=True)
+else:
+    st.sidebar.error("Audio file 'dashboard_view.mp3' not found in assets folder.")
+
+# def add_bg_music(url):
+#     st.markdown(
+#         f"""
+#         <audio controls loop style="width: 100%; height: 40px;">
+#             <source src="{url}" type="audio/mpeg">
+#             Your browser does not support the audio element.
+#         </audio>
+#         """,
+#         unsafe_allow_html=True
+#     )
+
+# music_url = "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-8.mp3"
+# add_bg_music(music_url)
 
 st.set_page_config(page_title= "About Me", page_icon="👤")
 
 col1, col2 = st.columns([1.08, 2], gap="medium")
 
 with col1:
-    st.image("gambar/DRK_6468.jpg", caption="Mochammad Reyhan Mauluddi")
+    st.image("../gambar/DRK_6468.jpg", caption="Mochammad Reyhan Mauluddi")
 
 with col2:
     st.title("About Me")
@@ -66,7 +106,7 @@ with col2:
 
     st.write("""
             In today’s data-heavy world, everyone has information, but very few have clear answers. 
-             As a Quantitative Research and Data Analytics Specialist with over years of experience, 
+             As a Data Analytics Specialist with over years of experience, 
              my career has been defined by a single mission: transforming complex, high-volume datasets 
              into the strategic blueprints that drive business solution. I specialize in the intersection of 
              mathematical precision and commercial intuition.

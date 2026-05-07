@@ -56,46 +56,6 @@ def set_office_bg():
 
 set_office_bg()
 
-# def get_base64_of_bin_file(bin_file):
-#     with open(bin_file, 'rb') as f:
-#         data = f.read()
-#     return base64.b64encode(data).decode()
-
-# def set_office_bg():
-#     # Sesuaikan nama file .avif kamu di sini
-#     file_path = Path(__file__).parent / "../gambar/photo-1526289034009-0240ddb68ce3.avif"
-    
-#     try:
-#         bin_str = get_base64_of_bin_file(file_path)
-        
-#         st.markdown(
-#             f"""
-#             <style>
-#             .stApp {{
-#                 background: linear-gradient(rgba(0, 0, 0, 0.85), rgba(0, 0, 0, 0.95)), 
-#                             url("data:image/avif;base64,{bin_str}");
-#                 background-size: cover;
-#                 background-position: center;
-#                 background-attachment: fixed;
-#             }}
-
-#             /* ... Sisa CSS kamu tetap sama ... */
-#             [data-testid="stSidebar"] {{
-#                 background-color: rgba(0, 0, 0, 0.7) !important;
-#                 backdrop-filter: blur(12px);
-#             }}
-#             h1, h2, h3 {{ color: #ffffff !important; }}
-#             p, span, label {{ color: #e0e0e0 !important; }}
-#             </style>
-#             """,
-#             unsafe_allow_html=True
-#         )
-#     except FileNotFoundError:
-#         st.error("File gambar .avif tidak ditemukan. Periksa kembali path-nya.")
-
-# set_office_bg()
-
-
 
 st.set_page_config(
     page_title='Dashboard Ecommerce Startup',
@@ -166,7 +126,7 @@ fig_1.update_layout(
 
 
 # total order
-df_filtered['created_at'] = pd.to_datetime(df_vis['created_at'], format='ISO8601')
+df_filtered['created_at'] = pd.to_datetime(df_filtered['created_at'], format='ISO8601')
 df_filtered['created_at'] = df_filtered['created_at'].dt.tz_localize(None)
 one_year_ago = datetime.now() - timedelta(days=365)
 df_line = df_filtered[df_filtered['created_at'] >= one_year_ago].copy()
@@ -239,6 +199,39 @@ fig_5.update_layout(
 
 
 
+# summary dashboard
+today = datetime(2026, 4, 30)
+
+first_day_curr = today.replace(day=1, hour=0, minute=0, second=0)
+last_day_prev = first_day_curr - timedelta(seconds=1)
+first_day_prev = last_day_prev.replace(day=1, hour=0, minute=0, second=0)
+
+df_curr = df_filtered[(df_filtered['created_at'] >= first_day_curr) & (df_filtered['created_at'] <= today)]
+df_prev = df_filtered[(df_filtered['created_at'] >= first_day_prev) & (df_filtered['created_at'] <= last_day_prev)]
+
+df_curr_unique = df_curr.drop_duplicates(subset=['order_id'])
+df_prev_unique = df_prev.drop_duplicates(subset=['order_id'])
+
+def calculate_growth(current, previous):
+    if previous == 0: return 0
+    return ((current - previous) / previous) * 100
+
+# Total Traffic
+traffic_curr, traffic_prev = len(df_curr), len(df_prev)
+traffic_growth = calculate_growth(traffic_curr, traffic_prev)
+
+# New Users
+users_curr, users_prev = df_curr['user_id'].nunique(), df_prev['user_id'].nunique()
+users_growth = calculate_growth(users_curr, users_prev)
+
+# Performance (Complete Rate)
+perf_curr = (df_curr_unique['status'] == 'Complete').mean() * 100 if len(df_curr_unique) > 0 else 0
+perf_prev = (df_prev_unique['status'] == 'Complete').mean() * 100 if len(df_prev_unique) > 0 else 0
+perf_diff = perf_curr - perf_prev # Menggunakan selisih poin persentase sesuai gambar
+
+# Sales (Volume Order)
+sales_curr, sales_prev = len(df_curr_unique), len(df_prev_unique)
+sales_growth = calculate_growth(sales_curr, sales_prev)
 
 
 # layout dengan tab
@@ -285,6 +278,31 @@ with tab1:
     st.write("Descriptive analysis summarizes historical data to provide a clear "
     "and factual picture of what has already happened.")
 
+    with st.container():
+        curr_month_name = first_day_curr.strftime('%B %Y')
+        prev_month_name = first_day_prev.strftime('%B %Y')
+        st.info(f"{curr_month_name} vs {prev_month_name} Performance Summary")
+        m1, m2, m3, m4 = st.columns(4)
+        with m1:
+            with st.container(border=True):
+                st.markdown("<div style='background-color:#262730; color:white; padding:5px; border-radius:3px; font-size:12px; font-weight:bold; text-align:center;'>TOTAL TRAFFIC</div>", unsafe_allow_html=True)
+                st.metric(label="", value=f"{traffic_curr:,}", delta=f"{traffic_growth:.2f}%")
+        with m2:
+            with st.container(border=True):
+                st.markdown("<div style='background-color:#262730; color:white; padding:5px; border-radius:3px; font-size:12px; font-weight:bold; text-align:center;'>NEW USERS</div>", unsafe_allow_html=True)
+                st.metric(label="", value=f"{users_curr:,}", delta=f"{users_growth:.2f}%")
+        with m3:
+            with st.container(border=True):
+                st.markdown("<div style='background-color:#262730; color:white; padding:5px; border-radius:3px; font-size:12px; font-weight:bold; text-align:center;'>COMPLETE RATE</div>", unsafe_allow_html=True)
+                st.metric(label="", value=f"{perf_curr:.0f}%", delta=f"{perf_diff:+.2f}%")
+        with m4:
+            with st.container(border=True):
+                st.markdown("<div style='background-color:#262730; color:white; padding:5px; border-radius:3px; font-size:12px; font-weight:bold; text-align:center;'>SALES</div>", unsafe_allow_html=True)
+                st.metric(label="", value=f"{sales_curr:,}", delta=f"{sales_growth:.2f}%")
+
+    # st.divider()
+
+    st.info("All Time Statistics")
     col1, col2 = st.columns([1,1.5])
     with col1:
         st.plotly_chart(fig_1, use_container_width=True)
@@ -349,7 +367,7 @@ with tab2:
         st.write("#### Most Returned Category")
         cat_return = df_filtered.groupby('category')['is_returned'].mean().sort_values(ascending=False).reset_index()
         cat_return.columns= ['Category', 'Return Rate']
-        st.dataframe(cat_return.style.background_gradient(cmap='Reds'))
+        st.dataframe(cat_return.style.background_gradient(cmap='Reds', subset=['Return Rate']))
     
     with col2:
     # Diagnostik: Apakah usia pelanggan berpengaruh pada kecenderungan mengembalikan barang?
