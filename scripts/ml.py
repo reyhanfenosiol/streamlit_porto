@@ -36,9 +36,11 @@ s = setup(
 )
 
 print("\nMembandingkan semua model... Mohon tunggu.")
-best_model = compare_models(sort='AUC')
+best_model = compare_models(sort='Recall')
 
-
+path_compare = "../multipage_app/best_model.csv"
+compare_result = pull()
+compare_result.to_csv(path_compare)
 
 # korelasi
 corr_matrix = df_final.select_dtypes(include=["number"]).corr(method='spearman')
@@ -127,12 +129,12 @@ print("-" * 45)
 for idx in random_indices:
     asli = y_test.iloc[idx] if hasattr(y_test, 'iloc') else y_test[idx]
     tebakan = y_pred[idx]
-    peluang = y_prob[idx]
+    peluang = y_probs[idx]
     match = "✅" if asli == tebakan else "❌"
     print(f"  {asli}   |     {tebakan}     |     {peluang*100:6.2f}%     | {match}")
 
 # feature importance
-importances = pd.Series(et_model.feature_importances_, index=X.columns).sort_values(ascending=False)
+importances = pd.Series(lgbm_model.feature_importances_, index=X.columns).sort_values(ascending=False)
 print("\n--- Fitur Paling Berpengaruh ---")
 print(importances.head(10))
 

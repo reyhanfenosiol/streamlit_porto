@@ -55,15 +55,14 @@ set_office_bg()
 
 
 st.set_page_config(
-    page_title='Dashboard Ecommerce Startup',
+    page_title='Startup E-commerce Analytics',
     page_icon='📶'
 )
 
-st.title('Dashboard Ecommerce Startup')
+st.title('Startup E-commerce Analytics')
 st.sidebar.success('Select a page above')
 
-st.header('🤖 Churn Prediction Tool')
-st.write('Input customer details in the sidebar to predict churn risk.')
+st.header('👤 Customer Churn Prediction')
 
 st.sidebar.divider()
 st.sidebar.header('User Input Features')
@@ -72,9 +71,12 @@ current_dir = os.path.dirname(__file__)
 root_path = os.path.abspath(os.path.join(current_dir, ".."))
 path_ke_encoder = os.path.join(root_path, 'label_encoder.pkl')
 path_ke_model = os.path.join(root_path, 'model.pkl')
+path_ke_compare = os.path.join(root_path, 'best_model.csv')
+
 try:
     encoders = joblib.load(path_ke_encoder)
     model = joblib.load(path_ke_model)
+    compare = pd.read_csv("best_model.csv")
 except Exception as e:
     st.error(f"Gagal memuat file: {e}")
     st.info(f"Mencari di: {root_path}")
@@ -92,51 +94,73 @@ traffic_user = st.sidebar.selectbox("Traffic Source", list_traffic)
 traffic_encoded = encoders['traffic_source'].transform([traffic_user])[0]
 
 
-age = st.sidebar.slider("Age", 10, 100, 30)
+# pembagian tab
+tab1, tab2, tab3 = st.tabs(["🧠 Churn Model",
+                      "⚖️ Model Comparison",
+                      "🗂️ Raw Data & Filters"])
 
-total_order = st.sidebar.slider("Total Order", 1, 10, 5)
+with tab1:
+    st.write('Input customer details in the sidebar to predict churn risk.')
+    age = st.sidebar.slider("Age", 10, 100, 30)
+    total_order = st.sidebar.slider("Total Order", 1, 10, 5)
+    total_spend = st.sidebar.number_input("Total Spend ($)", min_value=0.1, max_value=2000.0, value=900.0)
+    avg_order_value = st.sidebar.number_input("Average Order Value ($)", min_value=0.1, max_value=1200.0, value=500.0)
+    unique_category_count = st.sidebar.slider("Unique Category Count", 1, 26, 3)
 
-total_spend = st.sidebar.number_input("Total Spend ($)", min_value=0.1, max_value=2000.0, value=900.0)
-
-avg_order_value = st.sidebar.number_input("Average Order Value ($)", min_value=0.1, max_value=1200.0, value=500.0)
-
-unique_category_count = st.sidebar.slider("Unique Category Count", 1, 26, 3)
-
-if st.sidebar.button("Predict Now"):
-    state_default = 0
-    city_default = 0
-    features = np.array(
-        [[
-            age, gender_encoded, state_default, city_default, country_encoded,
-            traffic_encoded, total_order, total_spend, avg_order_value, unique_category_count
-        ]]
-    )
+    if st.sidebar.button("Predict Now"):
+        state_default = 0
+        city_default = 0
+        features = np.array(
+            [[
+                age, gender_encoded, state_default, city_default, country_encoded,
+                traffic_encoded, total_order, total_spend, avg_order_value, unique_category_count
+            ]]
+        )
 
 
-    prediction = model.predict(features)
-    y_pred = prediction[0]
-    y_probs = model.predict_proba(features)[0][1]
+        prediction = model.predict(features)
+        y_pred = prediction[0]
+        y_probs = model.predict_proba(features)[0][1]
 
-    st.divider()
-    st.subheader("📊 Prediction Analysis Result")
+        st.divider()
+        st.subheader("📊 Prediction Analysis Result")
 
-    col1, col2 = st.columns(2)
+        col1, col2 = st.columns(2)
 
-    with col1:
-        st.write("**Prediction:**")
+        with col1:
+            st.write("**Prediction:**")
+            if y_pred == 1:
+                st.error(f"## CHURN")
+            else:
+                st.success(f"## STAY")
+
+        with col2:
+            st.write("**Churn Prediction:**")
+            st.info(f"## {y_probs*100:.2f}%")
+
+        st.write(f"The prediction probability of churn is: **{y_probs*100:.2f}%**")
+        st.progress(y_probs)
+
         if y_pred == 1:
-            st.error(f"## CHURN")
+            st.warning("👉 **Action:** High churn risk detected. Consider providing a targeted promotion.")
         else:
-            st.success(f"## STAY")
+            st.info("👉 **Action:** Stable customer. Consider loyalty programs to maintain retention.")
 
-    with col2:
-        st.write("**Churn Prediction:**")
-        st.info(f"## {y_probs*100:.2f}%")
 
-    st.write(f"The prediction probability of churn is: **{y_probs*100:.2f}%**")
-    st.progress(y_probs)
+with tab2:
+    st.write("The churn model uses Light Gradient Boosting Machine for a reason below.")
+    st.info("""
+            Among all model LGBM delivers the best overall performance accross
+            Recall, Precision, F1-Score, AUC and Accuracy.  
+    """)
+    compare = compare.iloc[:, 1:-1]
+    compare.index = range(1, len(compare)+1)
+    compare.index.name = 'Rank'
+    styled_compare = compare.style.background_gradient(
+        cmap='RdYlGn'
+    ).format(precision=3)
+    st.dataframe(styled_compare, use_container_width=True)
 
-    if y_pred == 1:
-        st.warning("👉 **Action:** High churn risk detected. Consider providing a targeted promotion.")
-    else:
-        st.info("👉 **Action:** Stable customer. Consider loyalty programs to maintain retention.")
+
+with tab3:
+    st.write("tes")
