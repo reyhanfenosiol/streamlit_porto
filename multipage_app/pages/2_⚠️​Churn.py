@@ -76,7 +76,7 @@ path_ke_compare = os.path.join(root_path, 'best_model.csv')
 try:
     encoders = joblib.load(path_ke_encoder)
     model = joblib.load(path_ke_model)
-    compare = pd.read_csv("best_model.csv")
+    compare = pd.read_csv(path_ke_compare)
 except Exception as e:
     st.error(f"Gagal memuat file: {e}")
     st.info(f"Mencari di: {root_path}")
