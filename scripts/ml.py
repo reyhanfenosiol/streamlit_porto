@@ -133,6 +133,15 @@ for idx in random_indices:
     match = "✅" if asli == tebakan else "❌"
     print(f"  {asli}   |     {tebakan}     |     {peluang*100:6.2f}%     | {match}")
 
+# Prediksi probabilitas untuk SELURUH data (X)
+df_final['y_prob'] = lgbm_model.predict_proba(X)[:, 1]
+df_final['y_pred'] = lgbm_model.predict(X)
+
+# Simpan hasil prediksi ke CSV sebagai bahan RAGs
+save_path = r'D:\REYHAN\BOOST ACADEMY\projek_akhir\multipage_app\model_results.csv'
+df_final.to_csv(save_path, index=False)
+
+
 # feature importance
 importances = pd.Series(lgbm_model.feature_importances_, index=X.columns).sort_values(ascending=False)
 print("\n--- Fitur Paling Berpengaruh ---")

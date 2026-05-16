@@ -4086,3 +4086,25 @@ Please also refer to the documentation for alternative solver options:
                random_state=42, reg_alpha=0.0, reg_lambda=0.0, subsample=1.0,
                subsample_for_bin=200000, subsample_freq=0)
 2026-05-07 18:41:02,785:INFO:compare_models() successfully completed......................................
+2026-05-16 17:31:29,125:WARNING:
+'cuml' is a soft dependency and not included in the pycaret installation. Please run: `pip install cuml` to install.
+2026-05-16 17:31:29,126:WARNING:
+'cuml' is a soft dependency and not included in the pycaret installation. Please run: `pip install cuml` to install.
+2026-05-16 17:31:29,129:WARNING:
+'cuml' is a soft dependency and not included in the pycaret installation. Please run: `pip install cuml` to install.
+2026-05-16 17:31:29,129:WARNING:
+'cuml' is a soft dependency and not included in the pycaret installation. Please run: `pip install cuml` to install.
+2026-05-16 17:38:36,071:WARNING:<ipython-input-39-0c6a9156dcc9>:1: SettingWithCopyWarning: 
+A value is trying to be set on a copy of a slice from a DataFrame.
+Try using .loc[row_indexer,col_indexer] = value instead
+
+See the caveats in the documentation: https://pandas.pydata.org/pandas-docs/stable/user_guide/indexing.html#returning-a-view-versus-a-copy
+  df_final['y_prob'] = lgbm_model.predict_proba(X)[:, 1]
+
+2026-05-16 17:38:37,175:WARNING:<ipython-input-40-b83749f4e63e>:1: SettingWithCopyWarning: 
+A value is trying to be set on a copy of a slice from a DataFrame.
+Try using .loc[row_indexer,col_indexer] = value instead
+
+See the caveats in the documentation: https://pandas.pydata.org/pandas-docs/stable/user_guide/indexing.html#returning-a-view-versus-a-copy
+  df_final['y_pred'] = lgbm_model.predict(X)
+

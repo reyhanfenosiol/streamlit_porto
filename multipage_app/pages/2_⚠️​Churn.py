@@ -71,7 +71,7 @@ root_path = os.path.abspath(os.path.join(current_dir, ".."))
 path_ke_encoder = os.path.join(root_path, 'label_encoder.pkl')
 path_ke_model = os.path.join(root_path, 'model.pkl')
 path_ke_compare = os.path.join(root_path, 'best_model.csv')
-path_ke_customer = os.path.join(root_path, 'model.csv')
+path_ke_customer = os.path.join(root_path, 'model_results.csv')
 
 try:
     encoders = joblib.load(path_ke_encoder)

@@ -121,7 +121,8 @@ list_columns = base_columns + cat_columns
 
 df_final = df_prafinal2[list_columns]
 
-
+# df_final adalah dataframe yang sudah siap untuk proses modeling, dengan target is_churn dan atribut-atribut yang sudah dipilih.
+print("✅ Dataframe df_final sudah siap untuk modeling.")
 
 # PRODUCT ANALYSIS DATAFRAME
 prod_country = pd.merge(
