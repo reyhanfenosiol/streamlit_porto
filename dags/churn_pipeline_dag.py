@@ -50,23 +50,31 @@ with DAG(
         mkdir -p /tmp/.ssh && chmod 700 /tmp/.ssh && \
         ssh-keyscan -t rsa github.com >> /tmp/.ssh/known_hosts && \
         
-        # 2. Amankan pasangan kunci: Pindahkan sementara file .pub yang tidak cocok agar tidak merusak autentikasi
+        # 2. Amankan pasangan kunci: Pindahkan sementara file .pub yang mengganggu
         if [ -f /home/airflow/.ssh/id_rsa.pub ]; then \
             mv /home/airflow/.ssh/id_rsa.pub /tmp/id_rsa.pub.bak; \
         fi && \
         
-        # 3. Set environment variable SSH
+        # 3. Kritis: Paksa permission private key menjadi 600 (Hanya bisa dibaca pemilik)
+        chmod 600 /home/airflow/.ssh/id_rsa && \
+        
+        # 4. Set environment variable SSH
         export GIT_SSH_COMMAND="ssh -i /home/airflow/.ssh/id_rsa -F /dev/null -o UserKnownHostsFile=/tmp/.ssh/known_hosts -o IdentitiesOnly=yes" && \
         
-        # 4. Masuk ke root folder dags tempat repositori git Anda berada
+        # 5. Jalankan Tes Koneksi ke GitHub untuk debug posisi kunci kita
+        echo "=== Mengetes Koneksi SSH ke GitHub ===" && \
+        $GIT_SSH_COMMAND -T git@github.com || echo "Status tes SSH selesai." && \
+        echo "======================================" && \
+        
+        # 6. Masuk ke root folder dags tempat repositori git Anda berada
         cd /opt/airflow/dags && \
         
-        # 5. Jalankan proses Git Commit dan Push
+        # 7. Jalankan proses Git Commit dan Push
         git add . && \
         git commit -m "auto-update: churn prediction results $(date +'%Y-%m-%d %H:%M:%S')" || echo "No changes to commit" && \
         git push origin main; \
         
-        # 6. Kembalikan file .pub ke tempat semula (baik sukses maupun gagal push)
+        # 8. Kembalikan file .pub ke tempat semula
         EXIT_CODE=$?; \
         if [ -f /tmp/id_rsa.pub.bak ]; then \
             mv /tmp/id_rsa.pub.bak /home/airflow/.ssh/id_rsa.pub; \
