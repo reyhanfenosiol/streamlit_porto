@@ -8,3 +8,7 @@ db-dtypes
 category-encoders
 matplotlib==3.10.9
 lightgbm
+duckdb-engine
+duckdb
+google-cloud-bigquery
+seaborn

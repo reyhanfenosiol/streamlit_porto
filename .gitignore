@@ -9,3 +9,5 @@ app.py
 duckdb/
 *.duckdb
 Global_Weather.csv
+.vscode/
+.~lock.prod_analysis.csv#

@@ -1,0 +1,29 @@
+[2026-05-16T16:33:41.082+0000] {taskinstance.py:1956} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: thelook_ecommerce_churn_pipeline.3_ml_retrain_and_predict manual__2026-05-16T16:21:26.846581+00:00 [queued]>
+[2026-05-16T16:33:41.103+0000] {taskinstance.py:1956} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: thelook_ecommerce_churn_pipeline.3_ml_retrain_and_predict manual__2026-05-16T16:21:26.846581+00:00 [queued]>
+[2026-05-16T16:33:41.104+0000] {taskinstance.py:2170} INFO - Starting attempt 2 of 2
+[2026-05-16T16:33:41.156+0000] {taskinstance.py:2191} INFO - Executing <Task(BashOperator): 3_ml_retrain_and_predict> on 2026-05-16 16:21:26.846581+00:00
+[2026-05-16T16:33:41.167+0000] {standard_task_runner.py:60} INFO - Started process 251 to run task
+[2026-05-16T16:33:41.174+0000] {standard_task_runner.py:87} INFO - Running: ['airflow', 'tasks', 'run', 'thelook_ecommerce_churn_pipeline', '3_ml_retrain_and_predict', 'manual__2026-05-16T16:21:26.846581+00:00', '--job-id', '13', '--raw', '--subdir', 'DAGS_FOLDER/churn_pipeline_dag.py', '--cfg-path', '/tmp/tmpz5oe7_42']
+[2026-05-16T16:33:41.179+0000] {standard_task_runner.py:88} INFO - Job 13: Subtask 3_ml_retrain_and_predict
+[2026-05-16T16:33:41.237+0000] {logging_mixin.py:188} WARNING - /home/airflow/.local/lib/python3.10/site-packages/airflow/settings.py:194 DeprecationWarning: The sql_alchemy_conn option in [core] has been moved to the sql_alchemy_conn option in [database] - the old setting has been used, but please update your config.
+[2026-05-16T16:33:41.319+0000] {task_command.py:423} INFO - Running <TaskInstance: thelook_ecommerce_churn_pipeline.3_ml_retrain_and_predict manual__2026-05-16T16:21:26.846581+00:00 [running]> on host 8dcafd7b7b97
+[2026-05-16T16:33:41.463+0000] {taskinstance.py:2480} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='reyhan_mauluddi' AIRFLOW_CTX_DAG_ID='thelook_ecommerce_churn_pipeline' AIRFLOW_CTX_TASK_ID='3_ml_retrain_and_predict' AIRFLOW_CTX_EXECUTION_DATE='2026-05-16T16:21:26.846581+00:00' AIRFLOW_CTX_TRY_NUMBER='2' AIRFLOW_CTX_DAG_RUN_ID='manual__2026-05-16T16:21:26.846581+00:00'
+[2026-05-16T16:33:41.465+0000] {subprocess.py:63} INFO - Tmp dir root location: /tmp
+[2026-05-16T16:33:41.467+0000] {subprocess.py:75} INFO - Running command: ['/usr/bin/bash', '-c', 'python3 /opt/airflow/scripts/ml.py']
+[2026-05-16T16:33:41.483+0000] {subprocess.py:86} INFO - Output:
+[2026-05-16T16:33:42.328+0000] {subprocess.py:93} INFO - Traceback (most recent call last):
+[2026-05-16T16:33:42.328+0000] {subprocess.py:93} INFO -   File "/opt/airflow/scripts/ml.py", line 2, in <module>
+[2026-05-16T16:33:42.330+0000] {subprocess.py:93} INFO -     import seaborn as sns
+[2026-05-16T16:33:42.330+0000] {subprocess.py:93} INFO - ModuleNotFoundError: No module named 'seaborn'
+[2026-05-16T16:33:42.414+0000] {subprocess.py:97} INFO - Command exited with return code 1
+[2026-05-16T16:33:42.429+0000] {taskinstance.py:2698} ERROR - Task failed with exception
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/models/taskinstance.py", line 433, in _execute_task
+    result = execute_callable(context=context, **execute_callable_kwargs)
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/operators/bash.py", line 212, in execute
+    raise AirflowException(
+airflow.exceptions.AirflowException: Bash command failed. The command returned a non-zero exit code 1.
+[2026-05-16T16:33:42.432+0000] {taskinstance.py:1138} INFO - Marking task as FAILED. dag_id=thelook_ecommerce_churn_pipeline, task_id=3_ml_retrain_and_predict, execution_date=20260516T162126, start_date=20260516T163341, end_date=20260516T163342
+[2026-05-16T16:33:42.474+0000] {standard_task_runner.py:107} ERROR - Failed to execute job 13 for task 3_ml_retrain_and_predict (Bash command failed. The command returned a non-zero exit code 1.; 251)
+[2026-05-16T16:33:42.520+0000] {local_task_job_runner.py:234} INFO - Task exited with return code 1
+[2026-05-16T16:33:42.559+0000] {taskinstance.py:3280} INFO - 0 downstream tasks scheduled from follow-on schedule check

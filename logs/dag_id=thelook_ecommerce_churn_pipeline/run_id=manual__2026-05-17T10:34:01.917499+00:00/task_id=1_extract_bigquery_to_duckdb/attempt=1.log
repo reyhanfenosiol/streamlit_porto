@@ -1,0 +1,31 @@
+[2026-05-17T10:34:07.265+0000] {taskinstance.py:1956} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: thelook_ecommerce_churn_pipeline.1_extract_bigquery_to_duckdb manual__2026-05-17T10:34:01.917499+00:00 [queued]>
+[2026-05-17T10:34:07.280+0000] {taskinstance.py:1956} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: thelook_ecommerce_churn_pipeline.1_extract_bigquery_to_duckdb manual__2026-05-17T10:34:01.917499+00:00 [queued]>
+[2026-05-17T10:34:07.280+0000] {taskinstance.py:2170} INFO - Starting attempt 1 of 2
+[2026-05-17T10:34:07.324+0000] {taskinstance.py:2191} INFO - Executing <Task(BashOperator): 1_extract_bigquery_to_duckdb> on 2026-05-17 10:34:01.917499+00:00
+[2026-05-17T10:34:07.331+0000] {standard_task_runner.py:60} INFO - Started process 95 to run task
+[2026-05-17T10:34:07.338+0000] {standard_task_runner.py:87} INFO - Running: ['airflow', 'tasks', 'run', 'thelook_ecommerce_churn_pipeline', '1_extract_bigquery_to_duckdb', 'manual__2026-05-17T10:34:01.917499+00:00', '--job-id', '51', '--raw', '--subdir', 'DAGS_FOLDER/churn_pipeline_dag.py', '--cfg-path', '/tmp/tmpoaj_uit4']
+[2026-05-17T10:34:07.341+0000] {standard_task_runner.py:88} INFO - Job 51: Subtask 1_extract_bigquery_to_duckdb
+[2026-05-17T10:34:07.399+0000] {logging_mixin.py:188} WARNING - /home/airflow/.local/lib/python3.10/site-packages/airflow/settings.py:194 DeprecationWarning: The sql_alchemy_conn option in [core] has been moved to the sql_alchemy_conn option in [database] - the old setting has been used, but please update your config.
+[2026-05-17T10:34:07.469+0000] {task_command.py:423} INFO - Running <TaskInstance: thelook_ecommerce_churn_pipeline.1_extract_bigquery_to_duckdb manual__2026-05-17T10:34:01.917499+00:00 [running]> on host b1bece16dd7e
+[2026-05-17T10:34:07.682+0000] {taskinstance.py:2480} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='reyhan_mauluddi' AIRFLOW_CTX_DAG_ID='thelook_ecommerce_churn_pipeline' AIRFLOW_CTX_TASK_ID='1_extract_bigquery_to_duckdb' AIRFLOW_CTX_EXECUTION_DATE='2026-05-17T10:34:01.917499+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='manual__2026-05-17T10:34:01.917499+00:00'
+[2026-05-17T10:34:07.685+0000] {subprocess.py:63} INFO - Tmp dir root location: /tmp
+[2026-05-17T10:34:07.687+0000] {subprocess.py:75} INFO - Running command: ['/usr/bin/bash', '-c', 'python3 /opt/airflow/scripts/extract.py']
+[2026-05-17T10:34:07.710+0000] {subprocess.py:86} INFO - Output:
+[2026-05-17T10:34:39.802+0000] {subprocess.py:93} INFO - 🚀 Memulai proses Ingestion dari BigQuery ke DuckDB...
+[2026-05-17T10:34:39.803+0000] {subprocess.py:93} INFO - 
+[2026-05-17T10:34:39.804+0000] {subprocess.py:93} INFO - 📥 Mengambil tabel: orders...
+[2026-05-17T10:34:39.805+0000] {subprocess.py:93} INFO - ✅ raw_orders berhasil dibuat (125075 instance).
+[2026-05-17T10:34:39.806+0000] {subprocess.py:93} INFO - 📥 Mengambil tabel: order_items...
+[2026-05-17T10:34:39.806+0000] {subprocess.py:93} INFO - ✅ raw_order_items berhasil dibuat (181063 instance).
+[2026-05-17T10:34:39.807+0000] {subprocess.py:93} INFO - 📥 Mengambil tabel: products...
+[2026-05-17T10:34:39.807+0000] {subprocess.py:93} INFO - ✅ raw_products berhasil dibuat (29120 instance).
+[2026-05-17T10:34:39.809+0000] {subprocess.py:93} INFO - 📥 Mengambil tabel: users...
+[2026-05-17T10:34:39.810+0000] {subprocess.py:93} INFO - ✅ raw_users berhasil dibuat (100000 instance).
+[2026-05-17T10:34:39.811+0000] {subprocess.py:93} INFO - 📥 Mengambil tabel: inventory_items...
+[2026-05-17T10:34:39.812+0000] {subprocess.py:93} INFO - ✅ raw_inventory_items berhasil dibuat (488965 instance).
+[2026-05-17T10:34:39.813+0000] {subprocess.py:93} INFO - 
+[2026-05-17T10:34:39.814+0000] {subprocess.py:93} INFO - ✨ Semua tabel berhasil dipindahkan ke DuckDB!
+[2026-05-17T10:34:40.008+0000] {subprocess.py:97} INFO - Command exited with return code 0
+[2026-05-17T10:34:40.062+0000] {taskinstance.py:1138} INFO - Marking task as SUCCESS. dag_id=thelook_ecommerce_churn_pipeline, task_id=1_extract_bigquery_to_duckdb, execution_date=20260517T103401, start_date=20260517T103407, end_date=20260517T103440
+[2026-05-17T10:34:40.110+0000] {local_task_job_runner.py:234} INFO - Task exited with return code 0
+[2026-05-17T10:34:40.152+0000] {taskinstance.py:3280} INFO - 1 downstream tasks scheduled from follow-on schedule check

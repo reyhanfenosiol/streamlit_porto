@@ -1,0 +1,69 @@
+version: '3.8'
+
+services:
+  airflow-init:
+    build: .
+    environment:
+      - AIRFLOW__CORE__EXECUTOR=SequentialExecutor
+      - AIRFLOW__CORE__SQL_ALCHEMY_CONN=sqlite:////opt/airflow/airflow.db
+      - AIRFLOW__CORE__LOAD_EXAMPLES=False
+      - _AIRFLOW_DB_UPGRADE=True
+      - _AIRFLOW_WWW_USER_CREATE=True
+      - _AIRFLOW_WWW_USER_USERNAME=airflow
+      - _AIRFLOW_WWW_USER_PASSWORD=airflow
+      - _PIP_ADDITIONAL_REQUIREMENTS=-r /opt/airflow/requirements.txt
+    volumes:
+      - .:/opt/airflow
+      - ./dags:/opt/airflow/dags
+      - ./scripts:/opt/airflow/scripts
+      - ./duckdb:/opt/airflow/duckdb
+      - ./multipage_app:/opt/airflow/multipage_app
+      - ./project_env:/opt/airflow/project_env
+    user: "${AIRFLOW_UID:-50000}:0"
+    command: version
+
+  airflow-webserver:
+    build: .
+    environment:
+      - AIRFLOW__CORE__EXECUTOR=SequentialExecutor
+      - AIRFLOW__CORE__SQL_ALCHEMY_CONN=sqlite:////opt/airflow/airflow.db
+      - AIRFLOW__CORE__LOAD_EXAMPLES=False
+      - AIRFLOW__WEBSERVER__EXPOSE_CONFIG=True
+      - _PIP_ADDITIONAL_REQUIREMENTS=-r /opt/airflow/requirements.txt
+    ports:
+      - "8080:8080"
+    volumes:
+      - .:/opt/airflow
+      - ./dags:/opt/airflow/dags
+      - ./scripts:/opt/airflow/scripts
+      - ./duckdb:/opt/airflow/duckdb
+      - ./multipage_app:/opt/airflow/multipage_app
+      - ./project_env:/opt/airflow/project_env
+      - ${HOME:-~}/.ssh:/home/airflow/.ssh:ro
+    user: "${AIRFLOW_UID:-50000}:0"
+    command: webserver
+    healthcheck:
+      test: ["CMD", "curl", "--fail", "http://localhost:8080/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+    restart: always
+
+  airflow-scheduler:
+    build: .
+    environment:
+      - AIRFLOW__CORE__EXECUTOR=SequentialExecutor
+      - AIRFLOW__CORE__SQL_ALCHEMY_CONN=sqlite:////opt/airflow/airflow.db
+      - AIRFLOW__CORE__LOAD_EXAMPLES=False
+      - _PIP_ADDITIONAL_REQUIREMENTS=-r /opt/airflow/requirements.txt
+    volumes:
+      - .:/opt/airflow
+      - ./dags:/opt/airflow/dags
+      - ./scripts:/opt/airflow/scripts
+      - ./duckdb:/opt/airflow/duckdb
+      - ./multipage_app:/opt/airflow/multipage_app
+      - ./project_env:/opt/airflow/project_env
+      - ${HOME:-~}/.ssh:/home/airflow/.ssh:rw
+    user: "${AIRFLOW_UID:-50000}:0"
+    command: scheduler
+    restart: always

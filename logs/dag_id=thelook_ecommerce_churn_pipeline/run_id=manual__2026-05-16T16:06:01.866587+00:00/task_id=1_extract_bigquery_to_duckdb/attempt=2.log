@@ -1,0 +1,29 @@
+[2026-05-16T16:18:18.671+0000] {taskinstance.py:1956} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: thelook_ecommerce_churn_pipeline.1_extract_bigquery_to_duckdb manual__2026-05-16T16:06:01.866587+00:00 [queued]>
+[2026-05-16T16:18:18.768+0000] {taskinstance.py:1956} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: thelook_ecommerce_churn_pipeline.1_extract_bigquery_to_duckdb manual__2026-05-16T16:06:01.866587+00:00 [queued]>
+[2026-05-16T16:18:18.782+0000] {taskinstance.py:2170} INFO - Starting attempt 2 of 2
+[2026-05-16T16:18:19.705+0000] {taskinstance.py:2191} INFO - Executing <Task(BashOperator): 1_extract_bigquery_to_duckdb> on 2026-05-16 16:06:01.866587+00:00
+[2026-05-16T16:18:19.744+0000] {standard_task_runner.py:60} INFO - Started process 79 to run task
+[2026-05-16T16:18:19.786+0000] {standard_task_runner.py:87} INFO - Running: ['airflow', 'tasks', 'run', 'thelook_ecommerce_churn_pipeline', '1_extract_bigquery_to_duckdb', 'manual__2026-05-16T16:06:01.866587+00:00', '--job-id', '8', '--raw', '--subdir', 'DAGS_FOLDER/churn_pipeline_dag.py', '--cfg-path', '/tmp/tmp4k8c_vqb']
+[2026-05-16T16:18:19.833+0000] {standard_task_runner.py:88} INFO - Job 8: Subtask 1_extract_bigquery_to_duckdb
+[2026-05-16T16:18:20.330+0000] {logging_mixin.py:188} WARNING - /home/airflow/.local/lib/python3.10/site-packages/airflow/settings.py:194 DeprecationWarning: The sql_alchemy_conn option in [core] has been moved to the sql_alchemy_conn option in [database] - the old setting has been used, but please update your config.
+[2026-05-16T16:18:21.532+0000] {task_command.py:423} INFO - Running <TaskInstance: thelook_ecommerce_churn_pipeline.1_extract_bigquery_to_duckdb manual__2026-05-16T16:06:01.866587+00:00 [running]> on host 8dcafd7b7b97
+[2026-05-16T16:18:22.331+0000] {taskinstance.py:2480} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='reyhan_mauluddi' AIRFLOW_CTX_DAG_ID='thelook_ecommerce_churn_pipeline' AIRFLOW_CTX_TASK_ID='1_extract_bigquery_to_duckdb' AIRFLOW_CTX_EXECUTION_DATE='2026-05-16T16:06:01.866587+00:00' AIRFLOW_CTX_TRY_NUMBER='2' AIRFLOW_CTX_DAG_RUN_ID='manual__2026-05-16T16:06:01.866587+00:00'
+[2026-05-16T16:18:22.338+0000] {subprocess.py:63} INFO - Tmp dir root location: /tmp
+[2026-05-16T16:18:22.342+0000] {subprocess.py:75} INFO - Running command: ['/usr/bin/bash', '-c', 'python3 /opt/airflow/scripts/extract.py']
+[2026-05-16T16:18:22.425+0000] {subprocess.py:86} INFO - Output:
+[2026-05-16T16:18:31.796+0000] {subprocess.py:93} INFO - Traceback (most recent call last):
+[2026-05-16T16:18:31.797+0000] {subprocess.py:93} INFO -   File "/opt/airflow/scripts/extract.py", line 9, in <module>
+[2026-05-16T16:18:31.802+0000] {subprocess.py:93} INFO -     os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = f"{BASE_DIR}/gcp-key.json"
+[2026-05-16T16:18:31.804+0000] {subprocess.py:93} INFO - NameError: name 'BASE_DIR' is not defined
+[2026-05-16T16:18:32.134+0000] {subprocess.py:97} INFO - Command exited with return code 1
+[2026-05-16T16:18:32.173+0000] {taskinstance.py:2698} ERROR - Task failed with exception
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/models/taskinstance.py", line 433, in _execute_task
+    result = execute_callable(context=context, **execute_callable_kwargs)
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/operators/bash.py", line 212, in execute
+    raise AirflowException(
+airflow.exceptions.AirflowException: Bash command failed. The command returned a non-zero exit code 1.
+[2026-05-16T16:18:32.195+0000] {taskinstance.py:1138} INFO - Marking task as FAILED. dag_id=thelook_ecommerce_churn_pipeline, task_id=1_extract_bigquery_to_duckdb, execution_date=20260516T160601, start_date=20260516T161818, end_date=20260516T161832
+[2026-05-16T16:18:32.491+0000] {standard_task_runner.py:107} ERROR - Failed to execute job 8 for task 1_extract_bigquery_to_duckdb (Bash command failed. The command returned a non-zero exit code 1.; 79)
+[2026-05-16T16:18:32.526+0000] {local_task_job_runner.py:234} INFO - Task exited with return code 1
+[2026-05-16T16:18:32.988+0000] {taskinstance.py:3280} INFO - 0 downstream tasks scheduled from follow-on schedule check

@@ -1,0 +1,92 @@
+[2026-05-17T10:06:34.978+0000] {taskinstance.py:1956} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: thelook_ecommerce_churn_pipeline.3_ml_retrain_and_predict manual__2026-05-17T09:53:50.490661+00:00 [queued]>
+[2026-05-17T10:06:35.042+0000] {taskinstance.py:1956} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: thelook_ecommerce_churn_pipeline.3_ml_retrain_and_predict manual__2026-05-17T09:53:50.490661+00:00 [queued]>
+[2026-05-17T10:06:35.043+0000] {taskinstance.py:2170} INFO - Starting attempt 7 of 8
+[2026-05-17T10:06:35.142+0000] {taskinstance.py:2191} INFO - Executing <Task(BashOperator): 3_ml_retrain_and_predict> on 2026-05-17 09:53:50.490661+00:00
+[2026-05-17T10:06:35.153+0000] {standard_task_runner.py:60} INFO - Started process 315 to run task
+[2026-05-17T10:06:35.162+0000] {standard_task_runner.py:87} INFO - Running: ['airflow', 'tasks', 'run', 'thelook_ecommerce_churn_pipeline', '3_ml_retrain_and_predict', 'manual__2026-05-17T09:53:50.490661+00:00', '--job-id', '39', '--raw', '--subdir', 'DAGS_FOLDER/churn_pipeline_dag.py', '--cfg-path', '/tmp/tmp68ep5kvu']
+[2026-05-17T10:06:35.167+0000] {standard_task_runner.py:88} INFO - Job 39: Subtask 3_ml_retrain_and_predict
+[2026-05-17T10:06:35.242+0000] {logging_mixin.py:188} WARNING - /home/airflow/.local/lib/python3.10/site-packages/airflow/settings.py:194 DeprecationWarning: The sql_alchemy_conn option in [core] has been moved to the sql_alchemy_conn option in [database] - the old setting has been used, but please update your config.
+[2026-05-17T10:06:35.364+0000] {task_command.py:423} INFO - Running <TaskInstance: thelook_ecommerce_churn_pipeline.3_ml_retrain_and_predict manual__2026-05-17T09:53:50.490661+00:00 [running]> on host 21f78e748bcb
+[2026-05-17T10:06:35.554+0000] {taskinstance.py:2480} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='reyhan_mauluddi' AIRFLOW_CTX_DAG_ID='thelook_ecommerce_churn_pipeline' AIRFLOW_CTX_TASK_ID='3_ml_retrain_and_predict' AIRFLOW_CTX_EXECUTION_DATE='2026-05-17T09:53:50.490661+00:00' AIRFLOW_CTX_TRY_NUMBER='7' AIRFLOW_CTX_DAG_RUN_ID='manual__2026-05-17T09:53:50.490661+00:00'
+[2026-05-17T10:06:35.556+0000] {subprocess.py:63} INFO - Tmp dir root location: /tmp
+[2026-05-17T10:06:35.558+0000] {subprocess.py:75} INFO - Running command: ['/usr/bin/bash', '-c', 'python3 /opt/airflow/scripts/ml.py']
+[2026-05-17T10:06:35.576+0000] {subprocess.py:86} INFO - Output:
+[2026-05-17T10:06:49.848+0000] {subprocess.py:93} INFO - Data analytics_cust_churn berhasil dimuat dari DuckDB.
+[2026-05-17T10:06:49.849+0000] {subprocess.py:93} INFO - === Outlier Analysis for: age ===
+[2026-05-17T10:06:49.850+0000] {subprocess.py:93} INFO - 
+[2026-05-17T10:06:49.851+0000] {subprocess.py:93} INFO - ==============================
+[2026-05-17T10:06:49.852+0000] {subprocess.py:93} INFO - 
+[2026-05-17T10:06:49.854+0000] {subprocess.py:93} INFO - === Outlier Analysis for: date_diff ===
+[2026-05-17T10:06:49.855+0000] {subprocess.py:93} INFO - 
+[2026-05-17T10:06:49.856+0000] {subprocess.py:93} INFO - ==============================
+[2026-05-17T10:06:49.857+0000] {subprocess.py:93} INFO - 
+[2026-05-17T10:06:49.858+0000] {subprocess.py:93} INFO - === Outlier Analysis for: total_order ===
+[2026-05-17T10:06:49.859+0000] {subprocess.py:93} INFO - 
+[2026-05-17T10:06:49.860+0000] {subprocess.py:93} INFO - ==============================
+[2026-05-17T10:06:49.861+0000] {subprocess.py:93} INFO - 
+[2026-05-17T10:06:49.863+0000] {subprocess.py:93} INFO - === Outlier Analysis for: total_spend ===
+[2026-05-17T10:06:49.864+0000] {subprocess.py:93} INFO - 
+[2026-05-17T10:06:49.865+0000] {subprocess.py:93} INFO - ==============================
+[2026-05-17T10:06:49.866+0000] {subprocess.py:93} INFO - 
+[2026-05-17T10:06:49.867+0000] {subprocess.py:93} INFO - === Outlier Analysis for: avg_order_value ===
+[2026-05-17T10:06:49.869+0000] {subprocess.py:93} INFO - 
+[2026-05-17T10:06:49.870+0000] {subprocess.py:93} INFO - ==============================
+[2026-05-17T10:06:49.871+0000] {subprocess.py:93} INFO - 
+[2026-05-17T10:06:49.872+0000] {subprocess.py:93} INFO - === Outlier Analysis for: unique_category_count ===
+[2026-05-17T10:06:49.873+0000] {subprocess.py:93} INFO - 
+[2026-05-17T10:06:49.874+0000] {subprocess.py:93} INFO - ==============================
+[2026-05-17T10:06:49.876+0000] {subprocess.py:93} INFO - 
+[2026-05-17T10:06:49.877+0000] {subprocess.py:93} INFO - === Outlier Analysis for: is_churn ===
+[2026-05-17T10:06:49.878+0000] {subprocess.py:93} INFO - 
+[2026-05-17T10:06:49.879+0000] {subprocess.py:93} INFO - ==============================
+[2026-05-17T10:06:49.880+0000] {subprocess.py:93} INFO - 
+[2026-05-17T10:06:49.881+0000] {subprocess.py:93} INFO - 
+[2026-05-17T10:06:49.881+0000] {subprocess.py:93} INFO - --- Memulai proses modeling dengan LightGBM Classifier ---
+[2026-05-17T10:06:49.882+0000] {subprocess.py:93} INFO - --- Hasil Evaluasi LightGBM Classifier ---
+[2026-05-17T10:06:49.883+0000] {subprocess.py:93} INFO -               precision    recall  f1-score   support
+[2026-05-17T10:06:49.884+0000] {subprocess.py:93} INFO - 
+[2026-05-17T10:06:49.884+0000] {subprocess.py:93} INFO -            0       0.42      0.44      0.43      4585
+[2026-05-17T10:06:49.885+0000] {subprocess.py:93} INFO -            1       0.73      0.72      0.72      9834
+[2026-05-17T10:06:49.886+0000] {subprocess.py:93} INFO - 
+[2026-05-17T10:06:49.886+0000] {subprocess.py:93} INFO -     accuracy                           0.63     14419
+[2026-05-17T10:06:49.888+0000] {subprocess.py:93} INFO -    macro avg       0.58      0.58      0.58     14419
+[2026-05-17T10:06:49.888+0000] {subprocess.py:93} INFO - weighted avg       0.63      0.63      0.63     14419
+[2026-05-17T10:06:49.889+0000] {subprocess.py:93} INFO - 
+[2026-05-17T10:06:49.890+0000] {subprocess.py:93} INFO - ROC-AUC Score: 0.5876
+[2026-05-17T10:06:49.891+0000] {subprocess.py:93} INFO -  Asli |  Tebakan  |  Peluang Churn  | Match
+[2026-05-17T10:06:49.891+0000] {subprocess.py:93} INFO - ---------------------------------------------
+[2026-05-17T10:06:49.892+0000] {subprocess.py:93} INFO -   1   |     1     |      58.03%     | ✅
+[2026-05-17T10:06:49.893+0000] {subprocess.py:93} INFO -   1   |     1     |      54.95%     | ✅
+[2026-05-17T10:06:49.893+0000] {subprocess.py:93} INFO -   1   |     1     |      56.50%     | ✅
+[2026-05-17T10:06:49.894+0000] {subprocess.py:93} INFO -   1   |     1     |      57.02%     | ✅
+[2026-05-17T10:06:49.895+0000] {subprocess.py:93} INFO -   1   |     0     |      46.99%     | ❌
+[2026-05-17T10:06:49.896+0000] {subprocess.py:93} INFO -   1   |     1     |      60.11%     | ✅
+[2026-05-17T10:06:49.897+0000] {subprocess.py:93} INFO -   1   |     1     |      55.01%     | ✅
+[2026-05-17T10:06:49.898+0000] {subprocess.py:93} INFO -   1   |     1     |      56.59%     | ✅
+[2026-05-17T10:06:49.898+0000] {subprocess.py:93} INFO -   0   |     0     |      36.33%     | ✅
+[2026-05-17T10:06:49.899+0000] {subprocess.py:93} INFO -   1   |     0     |      44.61%     | ❌
+[2026-05-17T10:06:49.900+0000] {subprocess.py:93} INFO -   1   |     1     |      55.51%     | ✅
+[2026-05-17T10:06:49.901+0000] {subprocess.py:93} INFO -   1   |     1     |      53.13%     | ✅
+[2026-05-17T10:06:49.902+0000] {subprocess.py:93} INFO -   0   |     1     |      56.68%     | ❌
+[2026-05-17T10:06:49.902+0000] {subprocess.py:93} INFO -   1   |     1     |      55.69%     | ✅
+[2026-05-17T10:06:49.903+0000] {subprocess.py:93} INFO -   1   |     1     |      56.78%     | ✅
+[2026-05-17T10:06:49.904+0000] {subprocess.py:93} INFO -   0   |     1     |      56.47%     | ❌
+[2026-05-17T10:06:49.905+0000] {subprocess.py:93} INFO -   0   |     1     |      55.13%     | ❌
+[2026-05-17T10:06:49.905+0000] {subprocess.py:93} INFO -   1   |     1     |      56.03%     | ✅
+[2026-05-17T10:06:49.906+0000] {subprocess.py:93} INFO -   0   |     0     |      30.17%     | ✅
+[2026-05-17T10:06:49.906+0000] {subprocess.py:93} INFO -   0   |     1     |      56.01%     | ❌
+[2026-05-17T10:06:49.907+0000] {subprocess.py:93} INFO - ✅ Hasil prediksi probabilitas dan kelas untuk seluruh data berhasil disimpan ke /opt/airflow/multipage_app/model_results.csv.
+[2026-05-17T10:06:49.908+0000] {subprocess.py:93} INFO - 
+[2026-05-17T10:06:49.908+0000] {subprocess.py:93} INFO - --- Fitur Paling Berpengaruh ---
+[2026-05-17T10:06:49.909+0000] {subprocess.py:93} INFO - city               616
+[2026-05-17T10:06:49.909+0000] {subprocess.py:93} INFO - age                506
+[2026-05-17T10:06:49.910+0000] {subprocess.py:93} INFO - state              490
+[2026-05-17T10:06:49.910+0000] {subprocess.py:93} INFO - total_spend        454
+[2026-05-17T10:06:49.911+0000] {subprocess.py:93} INFO - avg_order_value    369
+[2026-05-17T10:06:49.912+0000] {subprocess.py:93} INFO - dtype: int32
+[2026-05-17T10:06:49.913+0000] {subprocess.py:93} INFO - ✅ Model LightGBM dan Label Encoders berhasil disimpan ke /opt/airflow/multipage_app/model.pkl dan /opt/airflow/multipage_app/label_encoder.pkl.
+[2026-05-17T10:06:49.914+0000] {subprocess.py:93} INFO - ✅ Proses modeling selesai dengan sukses!
+[2026-05-17T10:06:50.130+0000] {subprocess.py:97} INFO - Command exited with return code 0
+[2026-05-17T10:06:50.199+0000] {taskinstance.py:1138} INFO - Marking task as SUCCESS. dag_id=thelook_ecommerce_churn_pipeline, task_id=3_ml_retrain_and_predict, execution_date=20260517T095350, start_date=20260517T100634, end_date=20260517T100650
+[2026-05-17T10:06:50.256+0000] {local_task_job_runner.py:234} INFO - Task exited with return code 0
+[2026-05-17T10:06:50.293+0000] {taskinstance.py:3280} INFO - 1 downstream tasks scheduled from follow-on schedule check

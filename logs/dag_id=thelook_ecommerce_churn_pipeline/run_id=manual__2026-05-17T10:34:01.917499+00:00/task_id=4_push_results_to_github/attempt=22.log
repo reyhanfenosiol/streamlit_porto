@@ -1,0 +1,33 @@
+[2026-05-17T11:36:09.028+0000] {taskinstance.py:1956} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: thelook_ecommerce_churn_pipeline.4_push_results_to_github manual__2026-05-17T10:34:01.917499+00:00 [queued]>
+[2026-05-17T11:36:09.052+0000] {taskinstance.py:1956} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: thelook_ecommerce_churn_pipeline.4_push_results_to_github manual__2026-05-17T10:34:01.917499+00:00 [queued]>
+[2026-05-17T11:36:09.055+0000] {taskinstance.py:2170} INFO - Starting attempt 22 of 23
+[2026-05-17T11:36:09.142+0000] {taskinstance.py:2191} INFO - Executing <Task(BashOperator): 4_push_results_to_github> on 2026-05-17 10:34:01.917499+00:00
+[2026-05-17T11:36:09.148+0000] {standard_task_runner.py:60} INFO - Started process 710 to run task
+[2026-05-17T11:36:09.155+0000] {standard_task_runner.py:87} INFO - Running: ['airflow', 'tasks', 'run', 'thelook_ecommerce_churn_pipeline', '4_push_results_to_github', 'manual__2026-05-17T10:34:01.917499+00:00', '--job-id', '75', '--raw', '--subdir', 'DAGS_FOLDER/churn_pipeline_dag.py', '--cfg-path', '/tmp/tmpej7m93q7']
+[2026-05-17T11:36:09.159+0000] {standard_task_runner.py:88} INFO - Job 75: Subtask 4_push_results_to_github
+[2026-05-17T11:36:09.208+0000] {logging_mixin.py:188} WARNING - /home/airflow/.local/lib/python3.10/site-packages/airflow/settings.py:194 DeprecationWarning: The sql_alchemy_conn option in [core] has been moved to the sql_alchemy_conn option in [database] - the old setting has been used, but please update your config.
+[2026-05-17T11:36:09.282+0000] {task_command.py:423} INFO - Running <TaskInstance: thelook_ecommerce_churn_pipeline.4_push_results_to_github manual__2026-05-17T10:34:01.917499+00:00 [running]> on host b1bece16dd7e
+[2026-05-17T11:36:09.482+0000] {taskinstance.py:2480} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='reyhan_mauluddi' AIRFLOW_CTX_DAG_ID='thelook_ecommerce_churn_pipeline' AIRFLOW_CTX_TASK_ID='4_push_results_to_github' AIRFLOW_CTX_EXECUTION_DATE='2026-05-17T10:34:01.917499+00:00' AIRFLOW_CTX_TRY_NUMBER='22' AIRFLOW_CTX_DAG_RUN_ID='manual__2026-05-17T10:34:01.917499+00:00'
+[2026-05-17T11:36:09.487+0000] {subprocess.py:63} INFO - Tmp dir root location: /tmp
+[2026-05-17T11:36:09.489+0000] {subprocess.py:75} INFO - Running command: ['/usr/bin/bash', '-c', '\n        # 1. Sandbox SSH\n        mkdir -p /tmp/.ssh && chmod 700 /tmp/.ssh\n        ssh-keyscan -t rsa github.com >> /tmp/.ssh/known_hosts\n        \n        # 2. Ambil Variable, hapus semua whitespace (spasi/enter), lalu decode\n        RAW_B64="***"\n        CLEAN_B64=$(echo "$RAW_B64" | tr -d \'[:space:]\')\n        echo "$CLEAN_B64" | base64 -d > /tmp/.ssh/id_rsa_tmp\n        \n        # Pastikan ada baris baru di akhir file kunci (beberapa versi OpenSSL mewajibkan ini)\n        echo "" >> /tmp/.ssh/id_rsa_tmp\n        chmod 600 /tmp/.ssh/id_rsa_tmp\n        \n        # 3. Setting Git SSH\n        export GIT_SSH_COMMAND="ssh -i /tmp/.ssh/id_rsa_tmp -F /dev/null -o UserKnownHostsFile=/tmp/.ssh/known_hosts -o IdentitiesOnly=yes -o StrictHostKeyChecking=no"\n        \n        # 4. Push\n        cd /opt/airflow/dags\n        git add .\n        git commit -m "auto-update: churn prediction results $(date +\'%Y-%m-%d %H:%M:%S\')" || echo "No changes to commit"\n        git push origin main\n        \n        EXIT_CODE=$?\n        rm -rf /tmp/.ssh/id_rsa_tmp\n        exit $EXIT_CODE\n        ']
+[2026-05-17T11:36:09.504+0000] {subprocess.py:86} INFO - Output:
+[2026-05-17T11:36:10.021+0000] {subprocess.py:93} INFO - # github.com:22 SSH-2.0-8ad108e
+[2026-05-17T11:36:11.968+0000] {subprocess.py:93} INFO - [main 51d4ff8] auto-update: churn prediction results 2026-05-17 11:36:10
+[2026-05-17T11:36:11.969+0000] {subprocess.py:93} INFO -  1 file changed, 11 insertions(+), 6 deletions(-)
+[2026-05-17T11:36:16.528+0000] {subprocess.py:93} INFO - git@github.com: Permission denied (publickey).
+[2026-05-17T11:36:16.531+0000] {subprocess.py:93} INFO - fatal: Could not read from remote repository.
+[2026-05-17T11:36:16.539+0000] {subprocess.py:93} INFO - 
+[2026-05-17T11:36:16.543+0000] {subprocess.py:93} INFO - Please make sure you have the correct access rights
+[2026-05-17T11:36:16.550+0000] {subprocess.py:93} INFO - and the repository exists.
+[2026-05-17T11:36:16.564+0000] {subprocess.py:97} INFO - Command exited with return code 128
+[2026-05-17T11:36:16.732+0000] {taskinstance.py:2698} ERROR - Task failed with exception
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/models/taskinstance.py", line 433, in _execute_task
+    result = execute_callable(context=context, **execute_callable_kwargs)
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/operators/bash.py", line 212, in execute
+    raise AirflowException(
+airflow.exceptions.AirflowException: Bash command failed. The command returned a non-zero exit code 128.
+[2026-05-17T11:36:16.812+0000] {taskinstance.py:1138} INFO - Marking task as UP_FOR_RETRY. dag_id=thelook_ecommerce_churn_pipeline, task_id=4_push_results_to_github, execution_date=20260517T103401, start_date=20260517T113609, end_date=20260517T113616
+[2026-05-17T11:36:17.722+0000] {standard_task_runner.py:107} ERROR - Failed to execute job 75 for task 4_push_results_to_github (Bash command failed. The command returned a non-zero exit code 128.; 710)
+[2026-05-17T11:36:17.783+0000] {local_task_job_runner.py:234} INFO - Task exited with return code 1
+[2026-05-17T11:36:17.931+0000] {taskinstance.py:3280} INFO - 0 downstream tasks scheduled from follow-on schedule check

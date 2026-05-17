@@ -1,18 +1,32 @@
 import os
+import sys
 import duckdb
 from google.cloud import bigquery
 
 # key dari google
-os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "D:/REYHAN/BOOST ACADEMY/projek_akhir/gcp-key.json"
-client = bigquery.Client()
+if os.path.exists("/opt/airflow"):
+    BASE_DIR = "/opt/airflow"  # untuk airflow
+    os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = f"{BASE_DIR}/gcp-key.json"
+else:
+    BASE_DIR = "D:/REYHAN/BOOST ACADEMY/projek_akhir"  # untuk lokal
+    os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = f"{BASE_DIR}/gcp-key.json"
 
+db_path = f"{BASE_DIR}/duckdb/dev.duckdb"
+
+# Verifikasi key GCP ditemukan sebelum lanjut ke BigQuery
+if not os.path.exists(os.environ["GOOGLE_APPLICATION_CREDENTIALS"]):    
+    print(f"❌ Gagal menemukan file key GCP di {os.environ['GOOGLE_APPLICATION_CREDENTIALS']}. Pastikan path sudah benar.")
+    sys.exit(1)
+
+
+
+# pipeline ingestion data dari big query ke duckdb
+client = bigquery.Client()
 # definisikan nama table
 tables = [
-    'orders', 'order_items', 'products', 'users', 'inventory_items', 'events'
+    'orders', 'order_items', 'products', 'users', 'inventory_items'
 ]
 
-# definisikan data lake
-db_path = "D:/REYHAN/BOOST ACADEMY/projek_akhir/duckdb/dev.duckdb"
 con = duckdb.connect(db_path)
 print("🚀 Memulai proses Ingestion dari BigQuery ke DuckDB...\n")
 

@@ -1,0 +1,32 @@
+[2026-05-17T09:17:47.785+0000] {taskinstance.py:1956} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: thelook_ecommerce_churn_pipeline.2_transform_and_feature_engineering manual__2026-05-17T09:16:44.504411+00:00 [queued]>
+[2026-05-17T09:17:47.799+0000] {taskinstance.py:1956} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: thelook_ecommerce_churn_pipeline.2_transform_and_feature_engineering manual__2026-05-17T09:16:44.504411+00:00 [queued]>
+[2026-05-17T09:17:47.799+0000] {taskinstance.py:2170} INFO - Starting attempt 1 of 2
+[2026-05-17T09:17:47.833+0000] {taskinstance.py:2191} INFO - Executing <Task(BashOperator): 2_transform_and_feature_engineering> on 2026-05-17 09:16:44.504411+00:00
+[2026-05-17T09:17:47.839+0000] {standard_task_runner.py:60} INFO - Started process 197 to run task
+[2026-05-17T09:17:47.844+0000] {standard_task_runner.py:87} INFO - Running: ['airflow', 'tasks', 'run', 'thelook_ecommerce_churn_pipeline', '2_transform_and_feature_engineering', 'manual__2026-05-17T09:16:44.504411+00:00', '--job-id', '27', '--raw', '--subdir', 'DAGS_FOLDER/churn_pipeline_dag.py', '--cfg-path', '/tmp/tmp_n9khqp7']
+[2026-05-17T09:17:47.847+0000] {standard_task_runner.py:88} INFO - Job 27: Subtask 2_transform_and_feature_engineering
+[2026-05-17T09:17:47.893+0000] {logging_mixin.py:188} WARNING - /home/airflow/.local/lib/python3.10/site-packages/airflow/settings.py:194 DeprecationWarning: The sql_alchemy_conn option in [core] has been moved to the sql_alchemy_conn option in [database] - the old setting has been used, but please update your config.
+[2026-05-17T09:17:47.965+0000] {task_command.py:423} INFO - Running <TaskInstance: thelook_ecommerce_churn_pipeline.2_transform_and_feature_engineering manual__2026-05-17T09:16:44.504411+00:00 [running]> on host bf30cdfc27a4
+[2026-05-17T09:17:48.168+0000] {taskinstance.py:2480} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='reyhan_mauluddi' AIRFLOW_CTX_DAG_ID='thelook_ecommerce_churn_pipeline' AIRFLOW_CTX_TASK_ID='2_transform_and_feature_engineering' AIRFLOW_CTX_EXECUTION_DATE='2026-05-17T09:16:44.504411+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='manual__2026-05-17T09:16:44.504411+00:00'
+[2026-05-17T09:17:48.170+0000] {subprocess.py:63} INFO - Tmp dir root location: /tmp
+[2026-05-17T09:17:48.171+0000] {subprocess.py:75} INFO - Running command: ['/usr/bin/bash', '-c', 'python3 /opt/airflow/scripts/transform.py']
+[2026-05-17T09:17:48.183+0000] {subprocess.py:86} INFO - Output:
+[2026-05-17T09:18:30.682+0000] {subprocess.py:93} INFO - ✅ Berhasil terhubung ke database DuckDB di /opt/airflow/duckdb/dev.duckdb.
+[2026-05-17T09:18:30.684+0000] {subprocess.py:93} INFO - ✅ Dataframe orders telah siap.
+[2026-05-17T09:18:30.685+0000] {subprocess.py:93} INFO - ✅ Dataframe order_items telah siap.
+[2026-05-17T09:18:30.686+0000] {subprocess.py:93} INFO - ✅ Dataframe products telah siap.
+[2026-05-17T09:18:30.687+0000] {subprocess.py:93} INFO - ✅ Dataframe users telah siap.
+[2026-05-17T09:18:30.688+0000] {subprocess.py:93} INFO - ✅ Dataframe inventory_items telah siap.
+[2026-05-17T09:18:30.690+0000] {subprocess.py:93} INFO - ✅ Dataframe events telah siap.
+[2026-05-17T09:18:30.691+0000] {subprocess.py:93} INFO - Last order date (Today): 2026-05-17 00:39:41.438497+00:00
+[2026-05-17T09:18:30.692+0000] {subprocess.py:93} INFO - Presentase: is_churn
+[2026-05-17T09:18:30.696+0000] {subprocess.py:93} INFO - 1    68.201237
+[2026-05-17T09:18:30.696+0000] {subprocess.py:93} INFO - 0    31.798763
+[2026-05-17T09:18:30.697+0000] {subprocess.py:93} INFO - Name: proportion, dtype: float64
+[2026-05-17T09:18:30.698+0000] {subprocess.py:93} INFO - ✅ Dataframe df_final sudah siap untuk modeling.
+[2026-05-17T09:18:30.699+0000] {subprocess.py:93} INFO - ✅ Dataframe df_final berhasil disimpan ke DuckDB sebagai analytics_cust_churn.
+[2026-05-17T09:18:30.700+0000] {subprocess.py:93} INFO - ✅ Dataframe prod_gab untuk produk analisis dengan file prod_analysis.csv berhasil disimpan ke /opt/airflow/prod_analysis.csv.
+[2026-05-17T09:18:31.564+0000] {subprocess.py:97} INFO - Command exited with return code 0
+[2026-05-17T09:18:31.627+0000] {taskinstance.py:1138} INFO - Marking task as SUCCESS. dag_id=thelook_ecommerce_churn_pipeline, task_id=2_transform_and_feature_engineering, execution_date=20260517T091644, start_date=20260517T091747, end_date=20260517T091831
+[2026-05-17T09:18:31.712+0000] {local_task_job_runner.py:234} INFO - Task exited with return code 0
+[2026-05-17T09:18:31.751+0000] {taskinstance.py:3280} INFO - 1 downstream tasks scheduled from follow-on schedule check

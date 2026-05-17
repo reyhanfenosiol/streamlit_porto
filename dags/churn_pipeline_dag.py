@@ -50,10 +50,18 @@ with DAG(
         # Paksa Git menggunakan kunci di /tmp dan abaikan config sistem yang rusak
         export GIT_SSH_COMMAND="ssh -i /tmp/ssh_key/id_rsa -F /dev/null -o StrictHostKeyChecking=no"
         
-        cd /opt/airflow/dags
-        git add .
-        git commit -m "auto-update: churn prediction results $(date +'%Y-%m-%d %H:%M:%S')" || echo "No changes"
-        git push origin main
+        cd /opt/airflow
+        
+        # Pastikan branch utama dan fetch updates terbaru
+        git fetch origin
+        git checkout main
+        
+        # Stage dan commit perubahan
+        git add -A
+        git diff --cached --quiet || git commit -m "auto-update: churn prediction results $(date +'%Y-%m-%d %H:%M:%S')"
+        
+        # Push ke origin dengan handling retry
+        git push -u origin main || (sleep 5 && git push -u origin main)
         """
     )
 

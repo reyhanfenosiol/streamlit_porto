@@ -1,0 +1,27 @@
+[2026-05-17T10:31:06.044+0000] {taskinstance.py:1956} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: thelook_ecommerce_churn_pipeline.4_push_results_to_github manual__2026-05-17T10:17:28.647248+00:00 [queued]>
+[2026-05-17T10:31:06.068+0000] {taskinstance.py:1956} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: thelook_ecommerce_churn_pipeline.4_push_results_to_github manual__2026-05-17T10:17:28.647248+00:00 [queued]>
+[2026-05-17T10:31:06.069+0000] {taskinstance.py:2170} INFO - Starting attempt 3 of 3
+[2026-05-17T10:31:06.172+0000] {taskinstance.py:2191} INFO - Executing <Task(BashOperator): 4_push_results_to_github> on 2026-05-17 10:17:28.647248+00:00
+[2026-05-17T10:31:06.187+0000] {standard_task_runner.py:60} INFO - Started process 80 to run task
+[2026-05-17T10:31:06.206+0000] {standard_task_runner.py:87} INFO - Running: ['airflow', 'tasks', 'run', 'thelook_ecommerce_churn_pipeline', '4_push_results_to_github', 'manual__2026-05-17T10:17:28.647248+00:00', '--job-id', '50', '--raw', '--subdir', 'DAGS_FOLDER/churn_pipeline_dag.py', '--cfg-path', '/tmp/tmp6sleduij']
+[2026-05-17T10:31:06.218+0000] {standard_task_runner.py:88} INFO - Job 50: Subtask 4_push_results_to_github
+[2026-05-17T10:31:06.338+0000] {logging_mixin.py:188} WARNING - /home/airflow/.local/lib/python3.10/site-packages/airflow/settings.py:194 DeprecationWarning: The sql_alchemy_conn option in [core] has been moved to the sql_alchemy_conn option in [database] - the old setting has been used, but please update your config.
+[2026-05-17T10:31:06.469+0000] {task_command.py:423} INFO - Running <TaskInstance: thelook_ecommerce_churn_pipeline.4_push_results_to_github manual__2026-05-17T10:17:28.647248+00:00 [running]> on host b1bece16dd7e
+[2026-05-17T10:31:06.713+0000] {taskinstance.py:2480} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='reyhan_mauluddi' AIRFLOW_CTX_DAG_ID='thelook_ecommerce_churn_pipeline' AIRFLOW_CTX_TASK_ID='4_push_results_to_github' AIRFLOW_CTX_EXECUTION_DATE='2026-05-17T10:17:28.647248+00:00' AIRFLOW_CTX_TRY_NUMBER='3' AIRFLOW_CTX_DAG_RUN_ID='manual__2026-05-17T10:17:28.647248+00:00'
+[2026-05-17T10:31:06.714+0000] {subprocess.py:63} INFO - Tmp dir root location: /tmp
+[2026-05-17T10:31:06.716+0000] {subprocess.py:75} INFO - Running command: ['/usr/bin/bash', '-c', '\n        # 1. Buat folder SSH tiruan di /tmp (berhasil karena ini murni sistem file Linux container)\n        mkdir -p /tmp/.ssh && chmod 700 /tmp/.ssh &&         ssh-keyscan -t rsa github.com >> /tmp/.ssh/known_hosts &&         \n        # Beritahu Git untuk ambil Kunci Privat dari mount Windows (~/.ssh/id_rsa), \n        # tapi simpan berkas host-nya ke /tmp\n        export GIT_SSH_COMMAND="ssh -i ~/.ssh/id_rsa -o UserKnownHostsFile=/tmp/.ssh/known_hosts" &&         \n        # 2. Masuk ke direktori utama proyek\n        cd /opt/airflow &&         \n        # 3. Konfigurasi identitas Git lokal\n        git config user.name "Reyhan Airflow Bot" &&         git config user.email "reyhan@example.com" &&         \n        # 4. Amankan penandaan kepemilikan direktori di lingkungan Linux Docker\n        git config --global --add safe.directory /opt/airflow &&         \n        # 5. Eksekusi Git Stage, Commit, dan Push\n        git add multipage_app/model_results.csv multipage_app/model.pkl multipage_app/label_encoder.pkl prod_analysis.csv &&         (git commit -m "🤖 Airflow Lokal Auto-Update: Pipeline & Model Results" || echo "No changes to commit") &&         git push origin main\n        ']
+[2026-05-17T10:31:06.735+0000] {subprocess.py:86} INFO - Output:
+[2026-05-17T10:31:07.305+0000] {subprocess.py:93} INFO - # github.com:22 SSH-2.0-8ad108e
+[2026-05-17T10:31:07.993+0000] {subprocess.py:93} INFO - fatal: not in a git directory
+[2026-05-17T10:31:07.994+0000] {subprocess.py:97} INFO - Command exited with return code 128
+[2026-05-17T10:31:08.018+0000] {taskinstance.py:2698} ERROR - Task failed with exception
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/models/taskinstance.py", line 433, in _execute_task
+    result = execute_callable(context=context, **execute_callable_kwargs)
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/operators/bash.py", line 212, in execute
+    raise AirflowException(
+airflow.exceptions.AirflowException: Bash command failed. The command returned a non-zero exit code 128.
+[2026-05-17T10:31:08.025+0000] {taskinstance.py:1138} INFO - Marking task as FAILED. dag_id=thelook_ecommerce_churn_pipeline, task_id=4_push_results_to_github, execution_date=20260517T101728, start_date=20260517T103106, end_date=20260517T103108
+[2026-05-17T10:31:08.090+0000] {standard_task_runner.py:107} ERROR - Failed to execute job 50 for task 4_push_results_to_github (Bash command failed. The command returned a non-zero exit code 128.; 80)
+[2026-05-17T10:31:08.120+0000] {local_task_job_runner.py:234} INFO - Task exited with return code 1
+[2026-05-17T10:31:08.165+0000] {taskinstance.py:3280} INFO - 0 downstream tasks scheduled from follow-on schedule check
