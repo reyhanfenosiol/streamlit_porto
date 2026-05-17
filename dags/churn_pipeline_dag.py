@@ -47,32 +47,11 @@ with DAG(
     github_push_task = BashOperator(
         task_id='4_push_results_to_github',
         bash_command="""
-        # 1. Setup folder SSH
-        mkdir -p /tmp/.ssh && chmod 700 /tmp/.ssh
-        ssh-keyscan -t rsa github.com > /tmp/.ssh/known_hosts
-        
-        # 2. Tulis Private Key dari Variable Airflow
-        printf "%s" "$SSH_PRIVATE_KEY" > /tmp/.ssh/id_rsa_tmp
-        chmod 600 /tmp/.ssh/id_rsa_tmp
-        
-        # 3. Environment SSH agar Git pakai kunci di atas
-        export GIT_SSH_COMMAND="ssh -i /tmp/.ssh/id_rsa_tmp -F /dev/null -o UserKnownHostsFile=/tmp/.ssh/known_hosts -o IdentitiesOnly=yes -o StrictHostKeyChecking=no"
-        
-        # 4. Jalankan Git Push
-        cd /opt/airflow/dags
-        git add .
-        git commit -m "auto-update: churn prediction results $(date +'%Y-%m-%d %H:%M:%S')" || echo "No changes to commit"
+        cd /opt/airflow/dags && \
+        git add . && \
+        git commit -m "auto-update: churn prediction results $(date +'%Y-%m-%d %H:%M:%S')" || echo "No changes" && \
         git push origin main
-        
-        # 5. Cleanup kunci sementara
-        EXIT_CODE=$?
-        rm -rf /tmp/.ssh/id_rsa_tmp
-        exit $EXIT_CODE
-        """,
-        env={
-            **os.environ,
-            "SSH_PRIVATE_KEY": "{{ var.value.get('github_rw_private_key') }}"
-        }
+        """
     )
 
     # Definisikan urutan eksekusi task
