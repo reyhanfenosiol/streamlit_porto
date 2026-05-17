@@ -47,9 +47,12 @@ with DAG(
     github_push_task = BashOperator(
         task_id='4_push_results_to_github',
         bash_command="""
-        cd /opt/airflow/dags && \
-        git add . && \
-        git commit -m "auto-update: churn prediction results $(date +'%Y-%m-%d %H:%M:%S')" || echo "No changes" && \
+        # Paksa Git menggunakan kunci di /tmp dan abaikan config sistem yang rusak
+        export GIT_SSH_COMMAND="ssh -i /tmp/ssh_key/id_rsa -F /dev/null -o StrictHostKeyChecking=no"
+        
+        cd /opt/airflow/dags
+        git add .
+        git commit -m "auto-update: churn prediction results $(date +'%Y-%m-%d %H:%M:%S')" || echo "No changes"
         git push origin main
         """
     )
