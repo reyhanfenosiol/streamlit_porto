@@ -50,8 +50,8 @@ with DAG(
         mkdir -p /tmp/.ssh && chmod 700 /tmp/.ssh && \
         ssh-keyscan -t rsa github.com >> /tmp/.ssh/known_hosts && \
         
-        # 2. Set environment variable SSH agar menggunakan id_rsa yang valid
-        export GIT_SSH_COMMAND="ssh -i /home/airflow/.ssh/id_rsa -F /dev/null -o UserKnownHostsFile=/tmp/.ssh/known_hosts" && \
+        # 2. Set environment dengan opsi IdentitiesOnly=yes agar mengabaikan .pub lokal yang salah pasangan
+        export GIT_SSH_COMMAND="ssh -i /home/airflow/.ssh/id_rsa -F /dev/null -o UserKnownHostsFile=/tmp/.ssh/known_hosts -o IdentitiesOnly=yes" && \
         
         # 3. Masuk ke root folder dags tempat repositori git Anda berada
         cd /opt/airflow/dags && \
