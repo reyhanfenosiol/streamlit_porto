@@ -50,16 +50,28 @@ with DAG(
         mkdir -p /tmp/.ssh && chmod 700 /tmp/.ssh && \
         ssh-keyscan -t rsa github.com >> /tmp/.ssh/known_hosts && \
         
-        # 2. Set environment dengan opsi IdentitiesOnly=yes agar mengabaikan .pub lokal yang salah pasangan
+        # 2. Amankan pasangan kunci: Pindahkan sementara file .pub yang tidak cocok agar tidak merusak autentikasi
+        if [ -f /home/airflow/.ssh/id_rsa.pub ]; then \
+            mv /home/airflow/.ssh/id_rsa.pub /tmp/id_rsa.pub.bak; \
+        fi && \
+        
+        # 3. Set environment variable SSH
         export GIT_SSH_COMMAND="ssh -i /home/airflow/.ssh/id_rsa -F /dev/null -o UserKnownHostsFile=/tmp/.ssh/known_hosts -o IdentitiesOnly=yes" && \
         
-        # 3. Masuk ke root folder dags tempat repositori git Anda berada
+        # 4. Masuk ke root folder dags tempat repositori git Anda berada
         cd /opt/airflow/dags && \
         
-        # 4. Jalankan proses Git Push ke branch main
+        # 5. Jalankan proses Git Commit dan Push
         git add . && \
         git commit -m "auto-update: churn prediction results $(date +'%Y-%m-%d %H:%M:%S')" || echo "No changes to commit" && \
-        git push origin main
+        git push origin main; \
+        
+        # 6. Kembalikan file .pub ke tempat semula (baik sukses maupun gagal push)
+        EXIT_CODE=$?; \
+        if [ -f /tmp/id_rsa.pub.bak ]; then \
+            mv /tmp/id_rsa.pub.bak /home/airflow/.ssh/id_rsa.pub; \
+        fi; \
+        exit $EXIT_CODE
         """,
     )
 
