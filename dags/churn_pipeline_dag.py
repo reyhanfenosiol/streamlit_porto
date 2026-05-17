@@ -51,11 +51,11 @@ with DAG(
         mkdir -p /tmp/.ssh && chmod 700 /tmp/.ssh && \
         ssh-keyscan -t rsa github.com >> /tmp/.ssh/known_hosts && \
         
-        # 2. Inject kunci dengan printf agar format baris baru terjaga
-        printf "%s\n" "$SSH_KEY_FROM_VAR" > /tmp/.ssh/id_rsa_tmp && \
+        # 2. Bongkar kunci dari Base64 kembali ke format asli
+        echo "$SSH_KEY_B64" | base64 -d > /tmp/.ssh/id_rsa_tmp && \
         chmod 600 /tmp/.ssh/id_rsa_tmp && \
         
-        # 3. Jalankan prosedur seperti sebelumnya
+        # 3. Set SSH Command
         export GIT_SSH_COMMAND="ssh -i /tmp/.ssh/id_rsa_tmp -F /dev/null -o UserKnownHostsFile=/tmp/.ssh/known_hosts -o IdentitiesOnly=yes" && \
         
         echo "=== Mengetes Koneksi SSH ke GitHub ===" && \
@@ -73,7 +73,7 @@ with DAG(
         """,
         env={
             **os.environ,
-            "SSH_KEY_FROM_VAR": "{{ var.value.get('github_rw_private_key') }}"
+            "SSH_KEY_B64": "{{ var.value.get('github_rw_private_key') }}"
         }
     )
 
