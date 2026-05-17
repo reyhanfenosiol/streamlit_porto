@@ -47,14 +47,23 @@ with DAG(
     github_push_task = BashOperator(
         task_id='4_push_results_to_github',
         bash_command="""
+        # 1. Sandbox SSH
         mkdir -p /tmp/.ssh && chmod 700 /tmp/.ssh
         ssh-keyscan -t rsa github.com >> /tmp/.ssh/known_hosts
         
-        printf "%s" "$SSH_PRIVATE_KEY" > /tmp/.ssh/id_rsa_tmp
+        # 2. Ambil Variable, hapus semua whitespace (spasi/enter), lalu decode
+        RAW_B64="{{ var.value.get('github_rw_private_key') }}"
+        CLEAN_B64=$(echo "$RAW_B64" | tr -d '[:space:]')
+        echo "$CLEAN_B64" | base64 -d > /tmp/.ssh/id_rsa_tmp
+        
+        # Pastikan ada baris baru di akhir file kunci (beberapa versi OpenSSL mewajibkan ini)
+        echo "" >> /tmp/.ssh/id_rsa_tmp
         chmod 600 /tmp/.ssh/id_rsa_tmp
         
+        # 3. Setting Git SSH
         export GIT_SSH_COMMAND="ssh -i /tmp/.ssh/id_rsa_tmp -F /dev/null -o UserKnownHostsFile=/tmp/.ssh/known_hosts -o IdentitiesOnly=yes -o StrictHostKeyChecking=no"
         
+        # 4. Push
         cd /opt/airflow/dags
         git add .
         git commit -m "auto-update: churn prediction results $(date +'%Y-%m-%d %H:%M:%S')" || echo "No changes to commit"
@@ -63,11 +72,7 @@ with DAG(
         EXIT_CODE=$?
         rm -rf /tmp/.ssh/id_rsa_tmp
         exit $EXIT_CODE
-        """,
-        env={
-            **os.environ,
-            "SSH_PRIVATE_KEY": "{{ var.value.get('github_rw_private_key') }}"
-        }
+        """
     )
 
     # Definisikan urutan eksekusi task
