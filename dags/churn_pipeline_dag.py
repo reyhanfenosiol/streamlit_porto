@@ -46,15 +46,17 @@ with DAG(
     github_push_task = BashOperator(
         task_id='4_push_results_to_github',
         bash_command="""
-        # 1. Daftarkan github.com ke known_hosts sementara di /tmp agar aman dari prompt yes/no
+        # 1. Mengamankan jabat tangan host GitHub
         mkdir -p /tmp/.ssh && chmod 700 /tmp/.ssh && \
         ssh-keyscan -t rsa github.com >> /tmp/.ssh/known_hosts && \
         
-        # 2. Set environment variable Git untuk menggunakan kunci SSH kita
+        # 2. Set environment variable SSH agar menggunakan id_rsa yang valid
         export GIT_SSH_COMMAND="ssh -i /home/airflow/.ssh/id_rsa -F /dev/null -o UserKnownHostsFile=/tmp/.ssh/known_hosts" && \
         
-        # 3. Jalankan proses Git Push (Ganti path /opt/airflow/dags/your_repo dengan path repo lokal Anda di container)
+        # 3. Masuk ke root folder dags tempat repositori git Anda berada
         cd /opt/airflow/dags && \
+        
+        # 4. Jalankan proses Git Push ke branch main
         git add . && \
         git commit -m "auto-update: churn prediction results $(date +'%Y-%m-%d %H:%M:%S')" || echo "No changes to commit" && \
         git push origin main
