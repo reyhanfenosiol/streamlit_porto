@@ -162,6 +162,8 @@ with col1:
 with col2:
     if st.button("🗑️ Clear History"):
         st.session_state.chat_history = []
+        if "last_response" in st.session_state:
+            st.session_state.last_response = None
         st.rerun()
 
 # 7. PROSES RUN ANALYSIS
