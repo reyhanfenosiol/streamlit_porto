@@ -296,6 +296,17 @@ with tab4:
             * ✅**AI-Powered Analyst Assistant:** Integrated a chatbot agent that serves as an analyst assistant, translating complex data into narrative explanations for flexible executive decision-making.
             """)
 
+    st.info(f"""
+            **🛠️ Technical Stack & Architecture**
+            * **Core Language:** Python
+            * **Data Source:** Google BigQuery, GCP Key Integration
+            * **Data Processing:** Pandas, NumPy, DuckDB
+            * **Machine Learning & Modeling:** Scikit-Learn, Joblib (Model Deployment)
+            * **AI & RAG Framework:** LangChain, OpenAI (GPT models), Pandas AI Agent, Pinecone (Vector Database)
+            * **Automation & DevOps:** Apache Airflow, Docker, Git & GitHub
+            * **Visualization & Framework:** Streamlit Cloud, Plotly Express
+            * **Development Environment:** Visual Studio Code (VS Code)
+            """)
 
 with tab1:
     # st.subheader("Descriptive Analytics Highlights")
