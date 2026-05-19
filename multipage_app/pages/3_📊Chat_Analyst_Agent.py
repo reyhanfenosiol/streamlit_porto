@@ -76,10 +76,13 @@ if not OPENAI_API_KEY:
     st.stop()
 
 # Tentukan lokasi CSV
+current_dir = os.path.dirname(__file__)
+root_path = os.path.abspath(os.path.join(current_dir, ".."))
+
 if os.path.exists("/opt/airflow"):
     BASE_DIR = "/opt/airflow"
 else:    
-    BASE_DIR = "D:/REYHAN/BOOST ACADEMY/projek_akhir"
+    BASE_DIR = root_path
 
 csv_path = f"{BASE_DIR}/multipage_app/model_results.csv"
 
