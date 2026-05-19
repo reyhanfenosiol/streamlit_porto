@@ -130,7 +130,7 @@ agent = create_pandas_dataframe_agent(
     return_intermediate_steps=True
 )
 
-# 5. TAMPILKAN RIWAYAT CHAT YANG SUDAH TERJADI (Gaya Chatbot Modern)
+# 5. TAMPILKAN RIWAYAT CHAT YANG SUDAH TERJADI
 st.subheader("💬 Conversation Logs")
 for message in st.session_state.chat_history:
     if isinstance(message, HumanMessage):
@@ -164,7 +164,7 @@ with col2:
         st.session_state.chat_history = []
         st.rerun()
 
-# 7. PROSES RUN ANALYSIS (MODIFIKASI SESUAI KEINGINAN ANDA)
+# 7. PROSES RUN ANALYSIS
 if submit_button and user_query:
     with st.spinner("Analyzing data and calculating statistics..."):
         try:
@@ -174,33 +174,40 @@ if submit_button and user_query:
                 "chat_history": st.session_state.chat_history
             })
             
-            # 1. TAMPILKAN LANGKAH LOGIKA TERLEBIH DAHULU (Intermediate Steps)
-            st.markdown("### 🧠 Agent Thought Process (Intermediate Steps)")
-            
-            if response.get("intermediate_steps"):
-                for i, step in enumerate(response["intermediate_steps"], start=1):
-                    action, observation = step
-                    with st.expander(f"🔹 STEP {i}: Using Tool `{action.tool}`", expanded=True):
-                        st.markdown("**💻 Python Code / Input:**")
-                        st.code(action.tool_input, language="python")
-                        st.markdown("**📊 Execution / Observation:**")
-                        st.code(observation)
-            else:
-                st.write("No intermediate steps taken (answered directly by the LLM).")
-            
-            st.markdown("---")
-            
-            # 2. TAMPILKAN JAWABAN AKHIR (Final Output)
-            st.success("✅ Analysis Completed!")
-            st.markdown("### 📝 Current Answer:")
-            st.info(response["output"])
-            
-            # 3. SIMPAN KE MEMORY: Masukkan chat baru ini ke dalam riwayat session_state
+            # SIMPAN KE MEMORY CHAT
             st.session_state.chat_history.append(HumanMessage(content=user_query))
             st.session_state.chat_history.append(AIMessage(content=response["output"]))
             
-            # Memicu rerun kecil agar log obrolan di bagian atas otomatis terupdate
+            # SIMPAN RESPONSE TERAKHIR KE SESSION STATE AGAR TIDAK HILANG SAAT RERUN
+            st.session_state.last_response = response
+            
+            # Memicu rerun agar log obrolan di bagian atas otomatis terupdate
             st.rerun()
                 
         except Exception as e:
             st.error(f"An error occurred while processing the data: {e}")
+
+# TAMPILKAN HASIL AGENT DI LUAR BLOK BUTTON (Akan bertahan meski di-rerun)
+if "last_response" in st.session_state and st.session_state.last_response:
+    res = st.session_state.last_response
+    
+    # 1. TAMPILKAN LANGKAH LOGIKA TERLEBIH DAHULU (Intermediate Steps)
+    st.markdown("### 🧠 Agent Thought Process (Intermediate Steps)")
+    
+    if res.get("intermediate_steps"):
+        for i, step in enumerate(res["intermediate_steps"], start=1):
+            action, observation = step
+            with st.expander(f"🔹 STEP {i}: Using Tool `{action.tool}`", expanded=True):
+                st.markdown("**💻 Python Code / Input:**")
+                st.code(action.tool_input, language="python")
+                st.markdown("**📊 Execution / Observation:**")
+                st.code(observation)
+    else:
+        st.write("No intermediate steps taken (answered directly by the LLM).")
+    
+    st.markdown("---")
+    
+    # 2. TAMPILKAN JAWABAN AKHIR (Final Output)
+    st.success("✅ Analysis Completed!")
+    st.markdown("### 📝 Answer:")
+    st.info(res["output"])
