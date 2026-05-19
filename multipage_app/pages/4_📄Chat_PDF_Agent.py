@@ -8,7 +8,7 @@ from langchain_pinecone import PineconeVectorStore
 from langchain_huggingface import HuggingFaceEmbeddings
 from langchain_core.tools import tool
 from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
-from langchain.agents import create_agent
+# from langchain.agents import create_agent
 from langchain_core.messages import SystemMessage, HumanMessage, ToolMessage
 
 
