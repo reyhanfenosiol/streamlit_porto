@@ -1,8 +1,8 @@
-# 📊 E-Commerce End-to-End Data Pipeline & Advanced Churn Analytics
+# 📊 E-Commerce End-to-End Data Pipeline, Churn Analytics and AI Analyst Agent
 
 [![Streamlit App](https://static.streamlit.io/badges/streamlit_badge.svg)](https://my-porto-reyhanmauluddi.streamlit.app/)
 
-Welcome to my portfolio repository. This project integrates a large-scale automated data pipeline with an interactive analytics dashboard designed to predict customer churn and uncover loyal customer behavior for a fast-growing e-commerce startup.
+Welcome to my portfolio repository. This project integrates a large-scale automated data pipeline with an interactive analytics dashboard designed to predict customer churn and uncover loyal customer behavior for a fast-growing e-commerce startup integrated with an AI Analyst Agent for reasoning across both structured transaction data and unstructured PDF reports to deliver prescriptive business insights.
 
 🔗 **Live Dashboard:** [Mochammad Reyhan Mauluddi Portfolio](https://my-porto-reyhanmauluddi.streamlit.app/)
 
