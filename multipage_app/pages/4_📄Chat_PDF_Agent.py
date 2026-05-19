@@ -21,7 +21,7 @@ st.set_page_config(
 
 st.title("📄 AI - PDF Analysis Agent")
 st.markdown("AI Assistant for analyzing PDF content briefly.")
-st.markdown("The PDF refers to the 'Growth in European E-Commerce 2025' report.")
+st.markdown("**The PDF refers to** the comprehensive analysis of European e-commerce growth from 2020 to 2024, highlighting the persistent post-pandemic consumer shifts, key technological drivers, and the strategic challenges regarding logistics, competition, and sustainability.")
 st.markdown("---")
 
 def set_office_bg():
