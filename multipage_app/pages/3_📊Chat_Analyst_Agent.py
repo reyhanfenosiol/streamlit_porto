@@ -78,13 +78,14 @@ if not OPENAI_API_KEY:
 # Tentukan lokasi CSV
 current_dir = os.path.dirname(__file__)
 root_path = os.path.abspath(os.path.join(current_dir, ".."))
+# path_to_csv = os.path.join(root_path, 'model_results.csv')
 
 if os.path.exists("/opt/airflow"):
     BASE_DIR = "/opt/airflow"
 else:    
     BASE_DIR = root_path
 
-csv_path = f"{BASE_DIR}/multipage_app/model_results.csv"
+csv_path = os.path.join(BASE_DIR, 'model_results.csv')
 
 # Load Data dengan Caching agar aplikasi cepat saat di-refresh
 @st.cache_data
