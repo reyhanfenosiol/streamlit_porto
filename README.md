@@ -72,7 +72,10 @@ Welcome to my portfolio repository. This project integrates a large-scale automa
 ├── gcp-key.json                # GCP Authentication (Restricted)
 ├── requirements.txt            # Python dependencies
 └── requirements-airflow.txt    # Python dependencies for Airflow DAGs
+```
 
-👤 **Contact & Collaboration**
-* **Developer:** Mochammad Reyhan Mauluddi
-* **LinkedIn:** [![LinkedIn](https://img.shields.io/badge/LinkedIn-0077B5?style=flat&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/mochammad-reyhan-mauluddi/)
+---
+
+## 👤 Contact & Collaboration
+* **Developer:** [Mochammad Reyhan Mauluddi](https://www.linkedin.com/in/mochammad-reyhan-mauluddi/)
+* **LinkedIn:** [![LinkedIn](https://img.shields.io/badge/LinkedIn-0077B5?style=flat&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/mochammad-reyhan-mauluddi/) 
