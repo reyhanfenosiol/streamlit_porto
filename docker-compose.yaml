@@ -11,7 +11,7 @@ services:
       - _AIRFLOW_WWW_USER_CREATE=True
       - _AIRFLOW_WWW_USER_USERNAME=airflow
       - _AIRFLOW_WWW_USER_PASSWORD=airflow
-      - _PIP_ADDITIONAL_REQUIREMENTS=-r /opt/airflow/requirements.txt
+      - _PIP_ADDITIONAL_REQUIREMENTS=-r /opt/airflow/requirements-airflow.txt
     volumes:
       - .:/opt/airflow
       - ./dags:/opt/airflow/dags
@@ -29,7 +29,7 @@ services:
       - AIRFLOW__CORE__SQL_ALCHEMY_CONN=sqlite:////opt/airflow/airflow.db
       - AIRFLOW__CORE__LOAD_EXAMPLES=False
       - AIRFLOW__WEBSERVER__EXPOSE_CONFIG=True
-      - _PIP_ADDITIONAL_REQUIREMENTS=-r /opt/airflow/requirements.txt
+      - _PIP_ADDITIONAL_REQUIREMENTS=-r /opt/airflow/requirements-airflow.txt
     ports:
       - "8080:8080"
     volumes:
@@ -55,7 +55,7 @@ services:
       - AIRFLOW__CORE__EXECUTOR=SequentialExecutor
       - AIRFLOW__CORE__SQL_ALCHEMY_CONN=sqlite:////opt/airflow/airflow.db
       - AIRFLOW__CORE__LOAD_EXAMPLES=False
-      - _PIP_ADDITIONAL_REQUIREMENTS=-r /opt/airflow/requirements.txt
+      - _PIP_ADDITIONAL_REQUIREMENTS=-r /opt/airflow/requirements-airflow.txt
     volumes:
       - .:/opt/airflow
       - ./dags:/opt/airflow/dags

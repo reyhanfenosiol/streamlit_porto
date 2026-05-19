@@ -47,21 +47,26 @@ with DAG(
     github_push_task = BashOperator(
         task_id='4_push_results_to_github',
         bash_command="""
-        # Paksa Git menggunakan kunci di /tmp dan abaikan config sistem yang rusak
-        export GIT_SSH_COMMAND="ssh -i /tmp/ssh_key/id_rsa -F /dev/null -o StrictHostKeyChecking=no"
+        # 1. Bypass keamanan owner Git untuk folder mount Docker
+        git config --global --add safe.directory /opt/airflow
         
         cd /opt/airflow
         
-        # Pastikan branch utama dan fetch updates terbaru
-        git fetch origin
+        # 2. Pastikan berada di branch main yang benar
         git checkout main
         
-        # Stage dan commit perubahan
-        git add -A
-        git diff --cached --quiet || git commit -m "auto-update: churn prediction results $(date +'%Y-%m-%d %H:%M:%S')"
+        # 3. Ambil perubahan terbaru dari remote untuk menghindari konflik/rejected refs
+        git fetch origin main
+        git pull origin main --rebase
         
-        # Push ke origin dengan handling retry
-        git push -u origin main || (sleep 5 && git push -u origin main)
+        # 4. Stage semua file baru atau modifikasi (seperti model_results.csv)
+        git add -A
+        
+        # 5. Commit hanya jika ada perubahan data baru (diperbaiki menggunakan git diff-index)
+        git diff-index --quiet HEAD -- || git commit -m "auto-update: churn prediction results $(date +'%Y-%m-%d %H:%M:%S')"
+        
+        # 6. Push ke origin secara bersih menggunakan SSH
+        git push origin main
         """
     )
 
