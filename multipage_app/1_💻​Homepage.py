@@ -296,8 +296,8 @@ with tab4:
             * ✅**AI-Powered Analyst Assistant:** Integrated a chatbot agent that serves as an analyst assistant, translating complex data into narrative explanations for flexible executive decision-making.
             """)
 
-    st.header("""
-    ### 🛠️ Technical Stack and Architecture
+    st.subheader("""
+    🛠️ Technical Stack and Architecture
 
     | Category | Technology Stack |
     | :--- | :--- |
