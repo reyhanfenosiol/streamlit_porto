@@ -58,11 +58,11 @@ set_office_bg()
 
 
 st.set_page_config(
-    page_title='Startup E-commerce Analytics',
+    page_title='E-commerce Analytics',
     page_icon='📶'
 )
 
-st.title('Startup E-commerce Analytics')
+st.title('E-commerce Analytics')
 st.sidebar.success('Select a page above')
 
 st.header('📊​ Data Analysis')
