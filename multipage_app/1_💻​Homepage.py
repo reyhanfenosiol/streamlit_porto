@@ -254,20 +254,20 @@ with tab4:
             * **Skala Pasar:** Mencatatkan lebih dari 100.000 transaksi di 15 negara dengan demografi pelanggan luas (pria & wanita, usia 12–70 tahun).
 
             **Tantangan**
-            * 🎯**Skalabilitas Data:** Volume data yang membengkak menuntut optimasi arsitektur pelaporan demi efisiensi pengambilan keputusan.
-            * 🎯**Kebutuhan Pipeline:** Harus membangun arsitektur data otomatis mulai dari *source* mentah di Google BigQuery, proses ETL via Apache Airflow, hingga visualisasi akhir.
-            * 🎯**Analisis Retensi:** Memahami karakteristik pelanggan setia dan meminimalisir angka *customer churn*.
-            * 🎯**Prediksi Real-Time:** Memfasilitasi Head of Operational untuk memantau data secara *real-time* dan memprediksi probabilitas *churn*.            
+            🎯**Skalabilitas Data:** Volume data yang membengkak menuntut optimasi arsitektur pelaporan demi efisiensi pengambilan keputusan.
+            🎯**Kebutuhan Pipeline:** Harus membangun arsitektur data otomatis mulai dari *source* mentah di Google BigQuery, proses ETL via Apache Airflow, hingga visualisasi akhir.
+            🎯**Analisis Retensi:** Memahami karakteristik pelanggan setia dan meminimalisir angka *customer churn*.
+            🎯**Prediksi Real-Time:** Memfasilitasi Head of Operational untuk memantau data secara *real-time* dan memprediksi probabilitas *churn*.            
             
             **Solusi**
-            * ✨**Pipeline Data Otomatis:** Mengintegrasikan Google BigQuery, Airflow, dan Streamlit Cloud untuk membangun pipeline data yang otomatis dan terjadwal.            
-            * ✨**Dashboard Interaktif:** Menyajikan dashboard yang memungkinkan eksplorasi data secara detail dan menggali wawasan mendalam tanpa perlu penanganan file manual.
+            ✨**Pipeline Data Otomatis:** Mengintegrasikan Google BigQuery, Airflow, dan Streamlit Cloud untuk membangun pipeline data yang otomatis dan terjadwal.            
+            ✨**Dashboard Interaktif:** Menyajikan dashboard yang memungkinkan eksplorasi data secara detail dan menggali wawasan mendalam tanpa perlu penanganan file manual.
 
             **Hasil**
-            * ✅**Efisiensi Alur Kerja 200%:** Memangkas waktu pengelolaan *big data flow* secara drastis dengan beralih dari *coding* manual ke sistem otomatis penuh untuk proses ekstraksi, pembersihan/transformasi, *push* ke GitHub, hingga visualisasi di platform Streamlit.
-            * ✅**Aksesibilitas Non-Teknis:** Analitik kini dapat digunakan dengan mudah oleh pengguna non-teknis melalui visualisasi interaktif yang dapat diakses secara *real-time*.
-            * ✅**Keamanan & Fleksibilitas Penjadwalan:** Menggunakan Apache Airflow yang terpasang langsung pada server untuk menjamin keamanan data di dalam *private cloud* serta memungkinkan penjadwalan otomatis sesuai kebutuhan bisnis.
-            * ✅**Asisten Analis Berbasis AI:** Integrasi *chatbot agent* berfungsi sebagai asisten analis yang mampu menyajikan penjelasan data dalam bentuk narasi kontekstual untuk mendukung fleksibilitas pengambilan keputusan bagi *decision maker*.
+            ✅**Efisiensi Alur Kerja 200%:** Memangkas waktu pengelolaan *big data flow* secara drastis dengan beralih dari *coding* manual ke sistem otomatis penuh untuk proses ekstraksi, pembersihan/transformasi, *push* ke GitHub, hingga visualisasi di platform Streamlit.
+            ✅**Aksesibilitas Non-Teknis:** Analitik kini dapat digunakan dengan mudah oleh pengguna non-teknis melalui visualisasi interaktif yang dapat diakses secara *real-time*.
+            ✅**Keamanan & Fleksibilitas Penjadwalan:** Menggunakan Apache Airflow yang terpasang langsung pada server untuk menjamin keamanan data di dalam *private cloud* serta memungkinkan penjadwalan otomatis sesuai kebutuhan bisnis.
+            ✅**Asisten Analis Berbasis AI:** Integrasi *chatbot agent* berfungsi sebagai asisten analis yang mampu menyajikan penjelasan data dalam bentuk narasi kontekstual untuk mendukung fleksibilitas pengambilan keputusan bagi *decision maker*.
             """)
 
     with col_en:
@@ -280,20 +280,20 @@ with tab4:
             * **Market Reach:** Recorded more than 100,000 transactions across 15 countries, serving a broad customer demographic (both male & female, aged 12–70).
 
             **Challenges**
-            * 🎯**Data Scalability:** Rapidly growing data volumes demand optimized reporting architecture for efficient decision-making.
-            * 🎯**Pipeline Requirements:** Need to build an automated data architecture from raw sources in Google BigQuery through ETL via Apache Airflow to final visualization.
-            * 🎯**Retention Analysis:** Extracting insights from loyal customer patterns to actively minimize customer churn
-            * 🎯**Real-Time Prediction:** Empowering the Head of Operational to monitor data in real-time and predict churn probabilities seamlessly.            
+            🎯**Data Scalability:** Rapidly growing data volumes demand optimized reporting architecture for efficient decision-making.
+            🎯**Pipeline Requirements:** Need to build an automated data architecture from raw sources in Google BigQuery through ETL via Apache Airflow to final visualization.
+            🎯**Retention Analysis:** Extracting insights from loyal customer patterns to actively minimize customer churn
+            🎯**Real-Time Prediction:** Empowering the Head of Operational to monitor data in real-time and predict churn probabilities seamlessly.            
             
             **Solutions**
-            * ✨**Automated Data Pipeline:** Integrated Google BigQuery, Apache Airflow, and Streamlit Cloud to establish a fully automated and scheduled data pipeline.            
-            * ✨**Interactive Dashboard:** Delivered a flexible dashboard for detailed data exploration, unlocking deep insights without any manual file handling.
+            ✨**Automated Data Pipeline:** Integrated Google BigQuery, Apache Airflow, and Streamlit Cloud to establish a fully automated and scheduled data pipeline.            
+            ✨**Interactive Dashboard:** Delivered a flexible dashboard for detailed data exploration, unlocking deep insights without any manual file handling.
 
             **Results**
-            * ✅**200% Workflow Efficiency:** Drastically cut big data flow management time by shifting from manual coding to a fully automated pipeline for extraction, cleaning/transformation, GitHub pushing, and Streamlit deployment.
-            * ✅**Non-Technical Accessibility:** Analytics can now be easily utilized by non-technical users through interactive, real-time visualizations.
-            * ✅**Security & Scheduling Flexibility:** Deployed Apache Airflow directly on the server to ensure data security within a private cloud while enabling customizable automated scheduling based on business needs.
-            * ✅**AI-Powered Analyst Assistant:** Integrated a chatbot agent that serves as an analyst assistant, translating complex data into narrative explanations for flexible executive decision-making.
+            ✅**200% Workflow Efficiency:** Drastically cut big data flow management time by shifting from manual coding to a fully automated pipeline for extraction, cleaning/transformation, GitHub pushing, and Streamlit deployment.
+            ✅**Non-Technical Accessibility:** Analytics can now be easily utilized by non-technical users through interactive, real-time visualizations.
+            ✅**Security & Scheduling Flexibility:** Deployed Apache Airflow directly on the server to ensure data security within a private cloud while enabling customizable automated scheduling based on business needs.
+            ✅**AI-Powered Analyst Assistant:** Integrated a chatbot agent that serves as an analyst assistant, translating complex data into narrative explanations for flexible executive decision-making.
             """)
 
 
