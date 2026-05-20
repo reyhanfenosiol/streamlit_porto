@@ -274,7 +274,7 @@ with tab4:
             **Latar Belakang Proyek**
             * **Profil Perusahaan:** Startup *e-commerce* dengan pertumbuhan pesat sejak pertama kali bertransaksi di tahun 2019 hingga saat ini.
             * **Skala Produk:** Mengelola portofolio yang mencakup 26 kategori produk dan lebih dari 2.700 variasi *brand*.
-            * **Skala Pasar:** Mencatatkan lebih dari 100.000 transaksi di 15 negara dengan demografi pelanggan yang luas(pria & wanita, usia 12–70 tahun).
+            * **Skala Pasar:** Mencatatkan lebih dari 100.000 transaksi di 15 negara dengan demografi pelanggan yang luas (pria & wanita, usia 12–70 tahun).
 
             **Tantangan**
             * 🎯**Skalabilitas Data:** Volume data yang membengkak menuntut optimasi arsitektur reporting demi efisiensi pengambilan keputusan.
