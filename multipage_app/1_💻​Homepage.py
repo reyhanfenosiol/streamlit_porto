@@ -273,11 +273,11 @@ with tab4:
             st.markdown(f"""
             **Latar Belakang Proyek**
             * **Profil Perusahaan:** Startup *e-commerce* dengan pertumbuhan pesat sejak pertama kali bertransaksi di tahun 2019 hingga saat ini.
-            * **Skala Produk:** Mengelola portofolio luas mencakup 26 kategori produk dan lebih dari 2.700 variasi *brand*.
-            * **Skala Pasar:** Mencatatkan lebih dari 100.000 transaksi di 15 negara dengan demografi pelanggan luas (pria & wanita, usia 12–70 tahun).
+            * **Skala Produk:** Mengelola portofolio yang mencakup 26 kategori produk dan lebih dari 2.700 variasi *brand*.
+            * **Skala Pasar:** Mencatatkan lebih dari 100.000 transaksi di 15 negara dengan demografi pelanggan yang luas(pria & wanita, usia 12–70 tahun).
 
             **Tantangan**
-            * 🎯**Skalabilitas Data:** Volume data yang membengkak menuntut optimasi arsitektur pelaporan demi efisiensi pengambilan keputusan.
+            * 🎯**Skalabilitas Data:** Volume data yang membengkak menuntut optimasi arsitektur reporting demi efisiensi pengambilan keputusan.
             * 🎯**Kebutuhan Pipeline:** Harus membangun arsitektur data otomatis mulai dari *source* mentah di Google BigQuery, proses ETL via Apache Airflow, hingga visualisasi akhir.
             * 🎯**Analisis Retensi:** Memahami karakteristik pelanggan setia dan meminimalisir angka *customer churn*.
             * 🎯**Prediksi Real-Time:** Memfasilitasi Head of Operational untuk memantau data secara *real-time* dan memprediksi probabilitas *churn*.            
@@ -290,7 +290,7 @@ with tab4:
             * ✅**Efisiensi Alur Kerja 200%:** Memangkas waktu pengelolaan *big data flow* secara drastis dengan beralih dari *coding* manual ke sistem otomatis penuh untuk proses ekstraksi, pembersihan/transformasi, *push* ke GitHub, hingga visualisasi di platform Streamlit.
             * ✅**Aksesibilitas Non-Teknis:** Analitik kini dapat digunakan dengan mudah oleh pengguna non-teknis melalui visualisasi interaktif yang dapat diakses secara *real-time*.
             * ✅**Keamanan & Fleksibilitas Penjadwalan:** Menggunakan Apache Airflow yang terpasang langsung pada server untuk menjamin keamanan data di dalam *private cloud* serta memungkinkan penjadwalan otomatis sesuai kebutuhan bisnis.
-            * ✅**Asisten Analis Berbasis AI:** Integrasi *chatbot agent* berfungsi sebagai asisten analis yang mampu menyajikan penjelasan data dalam bentuk narasi kontekstual untuk mendukung fleksibilitas pengambilan keputusan bagi *decision maker*.
+            * ✅**Asisten Analis Berbasis AI:** Integrasi *chatbot AI* berfungsi sebagai asisten analis yang mampu menyajikan penjelasan data dalam bentuk narasi kontekstual untuk mendukung fleksibilitas pengambilan keputusan bagi *decision maker*.
             """)
 
     with col_en:
