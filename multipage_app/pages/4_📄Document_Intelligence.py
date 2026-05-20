@@ -19,7 +19,7 @@ st.set_page_config(
     layout="wide"
 )
 
-st.title("📄 AI - Document Analyst")
+st.title("📄 AI Document Analyst")
 st.markdown("AI Assistant for analyzing your PDF content briefly.")
 st.markdown("**The PDF refers to** the comprehensive analysis of European e-commerce growth from 2020 to 2024, highlighting the persistent post-pandemic consumer shifts, key technological drivers, and the strategic challenges regarding logistics, competition, and sustainability.")
 st.caption("**Source:** https://www.globalscientificjournal.com/researchpaper/GROWTH_IN_EUROPEAN_E_COMMERCE_ANALYZING_THE_SURGE_IN_ONLINE_SHOPPING_AND_CONSUMER_BEHAVIOUR.pdf")
