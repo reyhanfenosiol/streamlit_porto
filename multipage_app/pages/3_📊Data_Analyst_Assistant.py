@@ -151,7 +151,7 @@ default_query = """Berapa total customer seluruhnya. Jelaskan customer di Brasil
 if len(st.session_state.chat_history) > 0:
     st.caption("💡 *You can now type a follow-up question to continue the conversation based on the answer above.*")
 else:
-    st.caption("💡 *The text below is a default query (example). You can run it directly or replace it.*")
+    st.caption("💡 *The text below is a default (example). You can run it directly or replace it.*")
 
 user_query = st.text_area("What would you like to analyze?", value="" if len(st.session_state.chat_history) > 0 else default_query, height=180)
 

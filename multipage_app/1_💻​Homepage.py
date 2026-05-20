@@ -63,6 +63,8 @@ st.set_page_config(
 )
 
 st.title('E-commerce Analytics')
+st.caption('Please visit github of this project on: [GitHub](https://github.com/reyhanfenosiol/streamlit_porto)')
+
 st.sidebar.success('Select a page above')
 
 st.header('📊​ Data Analysis')
@@ -85,6 +87,7 @@ st.divider()
 st.sidebar.header('Input your Filters')
 
 # global filter
+# filter negara
 list_negara = sorted(df_vis['country'].unique())
 selected_countries = st.sidebar.multiselect(
     'Select country/countries',
@@ -92,6 +95,7 @@ selected_countries = st.sidebar.multiselect(
     default=[list_negara[0]]
     )
 
+# filter status
 list_status = df_vis['status'].unique().tolist()
 selected_status = st.sidebar.multiselect(
     'Select Status',
@@ -99,16 +103,35 @@ selected_status = st.sidebar.multiselect(
     default=list_status
     )
 
+# filter categories
+list_category = df_vis['category'].unique().tolist()
+selected_category = st.sidebar.multiselect(
+    'Select Category',
+    options=list_category,
+    default=list_category
+)
+
+# filter brand 
+list_brand = df_vis['brand'].unique().tolist()
+selected_brand = st.sidebar.multiselect(
+    'Select Brand',
+    options=list_brand,
+    default=list_brand
+)
+
+# filter berapa category
 top_n = st.sidebar.slider('Top N Categories', min_value=3, max_value=20, value=5)
 
-if not selected_countries or not selected_status:
+if not selected_countries or not selected_status or not selected_category or not selected_brand:
     st.error("⚠️ **Please Complete your Filters!**")
-    st.info("Please select at least one country and one status to display the data.")
+    st.info("Please select at least one country, one status, one category, and one brand to display the data.")
     st.stop()
 else:
     df_filtered = df_vis[
         (df_vis['country'].isin(selected_countries)) &
-        (df_vis['status'].isin(selected_status))
+        (df_vis['status'].isin(selected_status)) &
+        (df_vis['category'].isin(selected_category)) &
+        (df_vis['brand'].isin(selected_brand))
     ]
 
 
@@ -388,7 +411,8 @@ with tab3:
     # if toggle_status:
     #     df_filtered = df_filtered.query('status == @input_status')
 
-    st.write(f"Showing **{len(df_filtered)}** rows")
+    st.info(f"Showing {len(df_filtered)} out of {len(df_prod)} records after applying filters.")
+    # st.write(f"Showing **{len(df_filtered)}** rows")
     st.dataframe(df_filtered, use_container_width=True)
 
 

@@ -170,41 +170,59 @@ with tab3:
     df_churn = pd.read_csv(path_ke_customer)
     df_churn.index.name = 'no'
     # df_churn = df_churn.reset_index()
-    ui_cols = st.columns(3)
     df_churn_filter = df_churn.copy()
-    for i, col_name in enumerate(df_churn.select_dtypes(include=['number']).columns):
-        ui_idx = i % 3
-        with ui_cols[ui_idx]:
-            # Cek apakah kolom adalah y_prob atau bertipe float
-            if col_name == 'y_prob' or df_churn[col_name].dtype == 'float64':
-                min_val = float(df_churn[col_name].min())
-                max_val = float(df_churn[col_name].max())
-                step = 0.01 # Agar slider bisa digeser per 0.01
-                format = "%.2f"
-            else:
-                min_val = int(df_churn[col_name].min())
-                max_val = int(df_churn[col_name].max())
-                step = 1
-                format = "%d"
-            
-            if min_val < max_val:
-                selected_range = st.slider(
-                    f"Filter {col_name}", 
-                    min_val, 
-                    max_val, 
-                    (min_val, max_val),
-                    step=step,
-                    format=format,
-                    key=f"slider_{col_name}"
-                )
+
+    # filter text id
+    search_id = st.text_input(
+        "Search by Customer ID:",
+        value="",
+        placeholder="Type customer ID here. Leave blank to show all records.",
+        key="search_id"
+        )
+    
+    if search_id:
+        df_churn_filter = df_churn_filter[df_churn_filter['id'].astype(str).str.contains(search_id, case=False, na=False)]
+    
+    if not df_churn_filter.empty:
+        ui_cols = st.columns(3)
+
+        for i, col_name in enumerate(df_churn.select_dtypes(include=['number']).columns):
+            ui_idx = i % 3
+            with ui_cols[ui_idx]:
+                # Cek apakah kolom adalah y_prob atau bertipe float
+                if col_name == 'y_prob' or df_churn[col_name].dtype == 'float64':
+                    min_val = float(df_churn_filter[col_name].min())
+                    max_val = float(df_churn_filter[col_name].max())
+                    step = 0.01 # Agar slider bisa digeser per 0.01
+                    format = "%.2f"
+                else:
+                    min_val = int(df_churn_filter[col_name].min())
+                    max_val = int(df_churn_filter[col_name].max())
+                    step = 1
+                    format = "%d"
                 
-                df_churn_filter = df_churn_filter[
-                    (df_churn_filter[col_name] >= selected_range[0]) &
-                    (df_churn_filter[col_name] <= selected_range[1])
-                ]
-            else:
-                st.write(f"Filter {col_name}")
-                st.caption(f"Value: {min_val}")
+                if min_val < max_val:
+                    selected_range = st.slider(
+                        f"Filter {col_name}", 
+                        min_val, 
+                        max_val, 
+                        (min_val, max_val),
+                        step=step,
+                        format=format,
+                        key=f"slider_{col_name}"
+                    )
+                    
+                    df_churn_filter = df_churn_filter[
+                        (df_churn_filter[col_name] >= selected_range[0]) &
+                        (df_churn_filter[col_name] <= selected_range[1])
+                    ]
+                else:
+                    st.write(f"Filter {col_name}")
+                    st.caption(f"Value: {min_val}")
+
+    else:
+        st.warning("No records found matching the search criteria.")
+
 
     st.dataframe(df_churn_filter, use_container_width=True)
     st.info(f"Showing {len(df_churn_filter)} out of {len(df_churn)} records after applying filters.")
