@@ -35,3 +35,6 @@ pinecone
 langchain-experimental
 python-dotenv
 tabulate
+
+requests
+newspaper3k
