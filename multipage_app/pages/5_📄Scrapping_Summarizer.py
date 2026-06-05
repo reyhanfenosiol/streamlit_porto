@@ -1,5 +1,3 @@
-from turtle import color
-
 import streamlit as st
 import requests
 from newspaper import Article
