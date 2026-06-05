@@ -13,8 +13,19 @@ logs/
 Global_Weather.csv
 .vscode/
 .~lock.prod_analysis.csv#
+mlartifacts/
+
 rag_csv_pdf.py
 rag_generation.py
+chart_tools.py
+csv_tools.py
+final_analysis_report.md
+cleand_sample.csv
+run_workflow.py
+sample.csv
+cleaned_sample.csv
+mlflow.db
+
 # rag_ingestion.py
 # rag_pandas_agen.py
 e_conomy_sea_2025_report.pdf

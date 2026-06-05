@@ -23,7 +23,9 @@ st.title("📄 AI Document Analyst")
 st.markdown("AI Assistant for analyzing your PDF content briefly.")
 st.markdown("**The PDF refers to** the comprehensive analysis of European e-commerce growth from 2020 to 2024, highlighting the persistent post-pandemic consumer shifts, key technological drivers, and the strategic challenges regarding logistics, competition, and sustainability.")
 st.caption("**Source:** https://www.globalscientificjournal.com/researchpaper/GROWTH_IN_EUROPEAN_E_COMMERCE_ANALYZING_THE_SURGE_IN_ONLINE_SHOPPING_AND_CONSUMER_BEHAVIOUR.pdf")
-st.markdown("---")
+st.caption("This application utilizes the `gpt-4o-mini` model for cost-efficiency and speed.")
+st.divider()
+
 
 def set_office_bg():
     img_url = "https://images.unsplash.com/photo-1664882365485-1c5f3983fbf2?q=80&w=1176&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"

@@ -63,7 +63,8 @@ if "chat_history" not in st.session_state:
 
 st.title("📊 AI Data Analyst")
 st.markdown("AI Assistant for analyzing data statistically and factually.")
-st.markdown("---")
+st.caption("This application utilizes the `gpt-4o-mini` model for cost-efficiency and speed.")
+st.divider()
 
 # 2. Load Data & Env (Asumsi data sudah aman seperti kode Anda sebelumnya)
 load_dotenv()
