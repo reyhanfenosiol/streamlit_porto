@@ -26,7 +26,8 @@ sample.csv
 cleaned_sample.csv
 mlflow.db
 
-# rag_ingestion.py
-# rag_pandas_agen.py
+rag_3agent.py
+rag_ingestion.py
+rag_pandas_agen.py
 e_conomy_sea_2025_report.pdf
 # GROWTH_IN_EUROPEAN_E_COMMERCE_ANALYZING_THE_SURGE_IN_ONLINE_SHOPPING_AND_CONSUMER_BEHAVIOUR1.pdf
